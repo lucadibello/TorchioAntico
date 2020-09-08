@@ -1,6 +1,14 @@
 
 export default {
   /*
+  ** Nuxt Environment variables
+  ** See https://nuxtjs.org/api/configuration-env/
+  */
+  env: {
+    baseUrl: 'http://localhost:3000'
+  },
+
+  /*
   ** Nuxt rendering mode
   ** See https://nuxtjs.org/api/configuration-mode
   */
