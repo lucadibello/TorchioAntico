@@ -5,7 +5,7 @@ export default {
   ** See https://nuxtjs.org/api/configuration-env/
   */
   env: {
-    baseUrl: 'http://localhost:3000'
+    baseUrl: 'http://localhost:5000'
   },
 
   /*

@@ -44,9 +44,13 @@
 
 <script>
 // import LoginForm from '@/components/LoginForm'
-import AuthenticationService from '~/services/AuthenticationService'
+</script>
 
-export default {
+<script lang="ts">
+import Vue from 'vue'
+import AuthenticationService from '../../services/AuthenticationService'
+
+export default Vue.extend({
   name: 'Login',
   data () {
     return {
@@ -59,16 +63,44 @@ export default {
   methods: {
     loginTest () {
       // Check if all data was set
-      this.$refs.loginForm.validate().then(() => {
+      (this.$refs.loginForm as Vue & { validate: () => Promise<any> }).validate().then(() => {
         // All data is valid, send request to APIs
-        AuthenticationService.login(this.login.email, this.login.password).then((result) => {
-          // Recived response
-          console.log(result)
-        }).catch((err) => {
-          this.$notify.error({
-            title: 'Errore login',
-            message: err
-          })
+        AuthenticationService.login(this.login.email, this.login.password).then((result: any) => {
+          // Response detected: read generated JWT token
+          if (result.data.token !== undefined) {
+            // Get cookie manager
+            const Cookie = process.client ? require('js-cookie') : undefined
+
+            // Save token in Vuex store and in Cookie
+            this.$store.commit('setAuth', result.data.token)
+            Cookie.set('auth', result.data.token)
+
+            // Show notification
+            this.$notify.success({
+              title: 'Accesso eseguito',
+              message: `Hai eseguito l'accesso correttamente. Benvenuto ${result.data._user.name} ${result.data._user.surname}!`
+            })
+
+            // Change page
+            this.$router.push({ path: 'dashboard' })
+          } else {
+            this.$notify.error({
+              title: 'Errore login',
+              message: 'Il server ha fornito una risposta non completa. Riprova più tardi'
+            })
+          }
+        }).catch((err: any) => {
+          if (err.response && err.response.data.type === 'ER_LOGIN_FAILED') {
+            this.$notify.error({
+              title: 'Accesso fallito',
+              message: 'Username o password sbagliate, controlla le credenziali inserite e riprova'
+            })
+          } else {
+            this.$notify.error({
+              title: 'Errore login',
+              message: err
+            })
+          }
         })
       }).catch(() => {
         // Data not valid
@@ -83,8 +115,8 @@ export default {
       this.login.email = this.login.password = ''
     }
   },
-  middleware: 'auth'
-}
+  middleware: ['auth']
+})
 </script>
 
 <style scoped>
