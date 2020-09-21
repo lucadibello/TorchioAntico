@@ -25,6 +25,10 @@ app.use(compression())
 const auth = require('./routes/api/auth')
 app.use('/api/auth', auth)
 
+const user = require('./routes/api/user')
+app.use('/api/user', user)
+
+// Sync DB
 sequelize.sync({ alter: true, drop: false }).then(() => {
     // Start app
     app.listen(config.app.port, () => console.log(`Server started at ${config.app.port}`));
