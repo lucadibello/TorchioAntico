@@ -1,6 +1,7 @@
 <template>
   <section>
     <h1>Il mio profilo</h1>
+    <hr>
     <!-- Update form -->
     <b-form @submit.prevent="updateProfile" @reset="resetForm">
       <b-form-group
@@ -136,7 +137,6 @@ export default {
       this.form.email = user.email
     }
   },
-  layout: 'admin',
-  middleware: 'auth'
+  layout: 'admin'
 }
 </script>

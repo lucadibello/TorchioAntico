@@ -9,5 +9,4 @@ const UserController = require('../../controllers/UserController')
 // Update user information
 router.patch('/:email', UserControllerPolicy.update, UserController.update);
 
-
 module.exports = router;

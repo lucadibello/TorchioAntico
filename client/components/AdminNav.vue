@@ -1,6 +1,6 @@
 <template>
   <b-navbar toggleable="lg" type="dark" variant="primary">
-    <b-navbar-brand href="#">
+    <b-navbar-brand>
       Al Torchio Antico
     </b-navbar-brand>
 
@@ -8,9 +8,22 @@
 
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav>
+        <!-- Dashboard -->
         <b-nav-item>
           <nuxt-link to="/admin/dashboard">
             Dashboard
+          </nuxt-link>
+        </b-nav-item>
+        <!-- Bookings -->
+        <b-nav-item>
+          <nuxt-link to="/admin/prenotazioni">
+            Prenotazioni
+          </nuxt-link>
+        </b-nav-item>
+        <!-- Users -->
+        <b-nav-item>
+          <nuxt-link to="/admin/utenti">
+            Utenti
           </nuxt-link>
         </b-nav-item>
       </b-navbar-nav>
@@ -37,13 +50,6 @@
     </b-collapse>
   </b-navbar>
 </template>
-
-<style scoped>
-  a {
-    color:inherit;
-    text-decoration: none;
-  }
-</style>
 
 <script>
 export default {

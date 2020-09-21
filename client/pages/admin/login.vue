@@ -33,9 +33,6 @@
 </template>
 
 <script>
-/* Import Auth service */
-// import AuthService from '../../services/authService'
-
 export default {
   name: 'Login',
   data () {

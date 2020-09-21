@@ -76,6 +76,11 @@ export default {
       }
     }
   },
+  // Loading bar
+  loading: {
+    color: 'green',
+    height: '5px'
+  },
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {},

@@ -34,3 +34,10 @@ export default {
   middleware: 'auth'
 }
 </script>
+
+<style>
+  a {
+    color:inherit;
+    text-decoration: none;
+  }
+</style>
