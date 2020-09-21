@@ -1,4 +1,4 @@
-# TorchioAntico
+# torchio-antico
 
 ## Build Setup
 

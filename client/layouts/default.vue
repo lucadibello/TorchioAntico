@@ -60,3 +60,10 @@ html {
   background-color: #35495e;
 }
 </style>
+
+<script lang="ts">
+import Vue from 'vue'
+export default Vue.extend({
+  name: 'DefaultLayout'
+})
+</script>

@@ -4,6 +4,28 @@ const jwt = require("jsonwebtoken");
 const config = require("../config");
 
 module.exports = {
+  sample (req, res) {
+    res.send(bcrypt.hashSync('root', 12))
+  },
+  getUser (req, res) {
+    // Token saved in req.token
+    jwt.verify(req.token, config.jwt.public_key, (err, user) => {
+      if (err) {
+        res.status(403).send({
+          message: "Authorization token not valid"
+        })
+      } else {
+        // Send back user information (truncate some useless values)
+        res.send({
+          name: user.name,
+          surname: user.surname,
+          email: user.email,
+          createdAt: user.createdAt,
+          updatedAt: user.updatedAt
+        })
+      }
+    })
+  },
   login(req, res) {
     // Search user in User table (using it's username)
     User.findByPk(req.body.email).then((user) => {
@@ -25,7 +47,13 @@ module.exports = {
             } else {
               // Generate JWT token for the logged user
               const jwt_token = jwt.sign(
-                { email: req.body.email },
+                {
+                  email: user.email,
+                  name: user.name,
+                  surname: user.surname,
+                  createdAt: user.createdAt,
+                  updatedAt: user.updatedAt
+                },
                 {
                   key: config.jwt.private_key,
                   passphrase: config.jwt.passphrase,
@@ -39,12 +67,7 @@ module.exports = {
               // Send response
               res.send({
                 message: "Logged in successfully",
-                token: jwt_token,
-                _user: {
-                  email: user.email,
-                  name: user.name,
-                  surname: user.surname
-                }
+                token: jwt_token
               });
             }
           });
