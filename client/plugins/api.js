@@ -1,9 +1,24 @@
 import axios from 'axios'
 
-// Create base object
-const axiosInstance = axios.create({
-  baseURL: `${process.env.baseUrl}/api`
-})
+// Get token from localstorage
+const token = localStorage.getItem('auth._token.local')
+
+let axiosInstance
+
+if (token) {
+  // Create base object
+  axiosInstance = axios.create({
+    baseURL: `${process.env.baseUrl}/api`,
+    headers: {
+      Authorization: token
+    }
+  })
+} else {
+  // Create base object
+  axiosInstance = axios.create({
+    baseURL: `${process.env.baseUrl}/api`
+  })
+}
 
 export default () => {
   return axiosInstance

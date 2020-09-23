@@ -1,10 +1,10 @@
 // Require modules
 const express = require('express');
-const UserControllerPolicy = require('../../policies/UserControllerPolicy')
+const RoomControllerPolicy = require('../../policies/RoomControllerPolicy')
 
 // Get router
 const router = express.Router()
-const UserController = require('../../controllers/UserController')
+const RoomController = require('../../controllers/RoomController')
 
 // Require JWT Token middleware
 const JwtChecker = require('../jwt')
@@ -12,7 +12,7 @@ const JwtChecker = require('../jwt')
 // Check JWT Token
 router.use(JwtChecker.authenticateToken)
 
-// Update user information
-router.patch('/:email', UserControllerPolicy.update, UserController.update);
+// Create room
+router.post('/', RoomControllerPolicy.create, RoomController.create)
 
 module.exports = router;

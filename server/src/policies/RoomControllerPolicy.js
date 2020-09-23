@@ -1,12 +1,11 @@
 const Joi = require('joi')
 
 module.exports = {
-  update(req, res, next) {
+  create (req, res, next) {
     // Define data schema
     const schema = Joi.object({
-      email: Joi.string().email().required(),
-      name: Joi.string().required().min(1),
-      surname: Joi.string().required().min(1),
+      name: Joi.string().required(),
+      description: Joi.string(),
     });
 
     // Validate data

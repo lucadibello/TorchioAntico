@@ -60,6 +60,8 @@ export default {
           timerProgressBar: true
         })
       }).catch((err) => {
+        // eslint-disable-next-line no-console
+        console.warn(err)
         if (err.response && err.response.data.type === 'ER_LOGIN_FAILED') {
           // Specific error
           this.$swal({

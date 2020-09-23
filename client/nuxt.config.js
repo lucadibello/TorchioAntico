@@ -66,6 +66,11 @@ export default {
       logout: '/admin/login',
       home: '/admin/dashboard'
     },
+    token: {
+      required: true,
+      property: 'token',
+      type: 'Bearer'
+    },
     strategies: {
       local: {
         endpoints: {
