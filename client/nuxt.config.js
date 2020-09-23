@@ -74,13 +74,14 @@ export default {
     strategies: {
       local: {
         endpoints: {
-          login: { url: BASE_URL + '/api/auth/login', method: 'post', propertyName: 'token' },
+          login: { url: BASE_URL + '/api/auth/login', method: 'post' },
           user: { url: BASE_URL + '/api/auth/user', method: 'get', propertyName: false },
           logout: false
         }
       }
     }
   },
+
   // Loading bar
   loading: {
     color: 'green',
@@ -88,7 +89,9 @@ export default {
   },
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
-  axios: {},
+  axios: {
+    baseURL: BASE_URL + '/api'
+  },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {

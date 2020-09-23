@@ -5,6 +5,7 @@
       <b-form-group
         id="input-group-1"
       >
+        {{ this.$store.state.localStorage }}
         <b-form-input
           id="email-input"
           v-model="form.email"

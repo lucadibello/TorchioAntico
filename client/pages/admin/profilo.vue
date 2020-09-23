@@ -62,9 +62,6 @@
 </template>
 
 <script>
-// Import UserModel
-import userService from '../../services/userService'
-
 // Define component
 export default {
   name: 'ProfileManager',
@@ -99,9 +96,8 @@ export default {
       }).then((state) => {
         if (state) {
           // Login accepted
-
           // Send request to APIs
-          userService.update(this.$store.state.auth.user.email, this.form).then((result) => {
+          this.$axios.patch(`user/${this.$store.state.auth.user.email}`, this.form).then((result) => {
             // Logout user
             this.$auth.logout()
 
