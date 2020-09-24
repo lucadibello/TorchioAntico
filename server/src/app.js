@@ -28,6 +28,9 @@ app.use('/api/auth', auth)
 const user = require('./routes/api/user')
 app.use('/api/user', user)
 
+const room = require('./routes/api/room')
+app.use('/api/room', room)
+
 // Sync DB
 sequelize.sync({ alter: true, drop: false }).then(() => {
     // Start app

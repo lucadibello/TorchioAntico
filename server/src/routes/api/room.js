@@ -13,6 +13,9 @@ const JwtChecker = require('../jwt')
 router.use(JwtChecker.authenticateToken)
 
 // Create room
-router.post('/', RoomControllerPolicy.create, RoomController.create)
+router.post('/', RoomControllerPolicy.createUpdate, RoomController.create)
+router.delete('/:id', RoomController.delete)
+router.get('/', RoomController.get)
+router.patch('/:id', RoomControllerPolicy.createUpdate, RoomController.update)
 
 module.exports = router;

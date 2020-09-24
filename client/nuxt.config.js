@@ -47,7 +47,9 @@ export default {
     // https://auth.nuxtjs.org/
     '@nuxtjs/auth',
     // Vue sweet alert
-    'vue-sweetalert2/nuxt'
+    'vue-sweetalert2/nuxt',
+    // Optimized Moment.JS
+    '@nuxtjs/moment'
   ],
 
   // Enable Vuex store
