@@ -13,6 +13,8 @@ const JwtChecker = require('../jwt')
 router.use(JwtChecker.authenticateToken)
 
 // Update user information
+router.post('/', UserControllerPolicy.create, UserController.create);
 router.patch('/:email', UserControllerPolicy.update, UserController.update);
 
+// Export router
 module.exports = router;
