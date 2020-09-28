@@ -15,6 +15,8 @@ router.use(JwtChecker.authenticateToken)
 // Update user information
 router.post('/', UserControllerPolicy.create, UserController.create);
 router.patch('/:email', UserControllerPolicy.update, UserController.update);
+router.get('/', UserController.get)
+router.delete('/:email', UserController.delete)
 
 // Export router
 module.exports = router;

@@ -15,13 +15,16 @@ module.exports = {
             message: "Authorization token needed"
         }) 
     
-        jwt.verify(token, config.jwt.public_key, (err) => {
+        jwt.verify(token, config.jwt.public_key, (err, user) => {
             if (err) return res.status(403).send({
                 message: "Authorization token not valid"
             })
-            
+
             // Set data into request parameters
             req.token = token;
+            req.user = user
+            
+            // Proceed to next step
             next()
         })
     }

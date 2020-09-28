@@ -9,23 +9,24 @@
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav>
         <!-- Dashboard -->
-        <b-nav-item>
-          <nuxt-link to="/admin/dashboard">
+        <b-nav-text>
+          <nuxt-link to="/admin/dashboard" class="mr-2">
             Dashboard
           </nuxt-link>
-        </b-nav-item>
+        </b-nav-text>
+
         <!-- Bookings -->
-        <b-nav-item>
-          <nuxt-link to="/admin/prenotazioni">
+        <b-nav-text>
+          <nuxt-link to="/admin/prenotazioni" class="mr-2">
             Prenotazioni
           </nuxt-link>
-        </b-nav-item>
-        <!-- Users -->
-        <b-nav-item>
+        </b-nav-text>
+
+        <b-nav-text>
           <nuxt-link to="/admin/utenti">
             Utenti
           </nuxt-link>
-        </b-nav-item>
+        </b-nav-text>
       </b-navbar-nav>
 
       <!-- Right aligned nav items -->

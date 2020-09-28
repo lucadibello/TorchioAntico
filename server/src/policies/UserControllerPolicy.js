@@ -27,7 +27,7 @@ module.exports = {
     // Define data schema
     const schema = Joi.object({
       email: Joi.string().email().required(),
-      password: Joi.string().required().min(8),
+      password: Joi.string().required().min(3),
       name: Joi.string().required().min(1),
       surname: Joi.string().required().min(1),
     });

@@ -51,7 +51,220 @@
       </b-tab>
       <!-- Create booking -->
       <b-tab title="Prenota">
-        <h4>Aggiungi prenotazione</h4>
+        <!-- First step: Fill user information -->
+        <div id="client-step" :v-show="false">
+          <b-form @submit.prevent="registerBooking">
+            <h4>
+              <b-badge pill variant="primary">
+                <b-icon-person-lines-fill />
+              </b-badge> Informazioni cliente
+            </h4>
+            <!-- Client information -->
+            <section>
+              <!-- Name & Surname -->
+              <h4 class="text-center mb-3">
+                Dati anagrafici
+              </h4>
+
+              <b-row>
+                <b-col>
+                  <!-- Name -->
+                  <b-form-group
+                    id="input-group-1"
+                    label="Nome"
+                    label-for="input-name"
+                  >
+                    <b-form-input
+                      id="input-name"
+                      v-model="form.client_name"
+                      type="text"
+                      required
+                      placeholder="Es: Pinco"
+                    />
+                  </b-form-group>
+                </b-col>
+                <b-col>
+                  <!-- Surname -->
+                  <b-form-group
+                    id="input-group-2"
+                    label="Cognome"
+                    label-for="input-surname"
+                  >
+                    <b-form-input
+                      id="input-surname"
+                      v-model="form.client_surname"
+                      type="text"
+                      required
+                      placeholder="Es: Pallino"
+                    />
+                  </b-form-group>
+                </b-col>
+              </b-row>
+              <!-- Email -->
+              <b-form-group
+                id="input-group-3"
+                label="Cognome"
+                label-for="input-email"
+              >
+                <b-form-input
+                  id="input-email"
+                  v-model="form.client_email"
+                  type="email"
+                  required
+                  placeholder="Es: pinco.pallino@esempio.ch"
+                />
+              </b-form-group>
+
+              <!-- Phone number -->
+              <b-form-group
+                id="input-group-3"
+                label="Numero di telefono"
+                label-for="input-phone"
+              >
+                <vue-tel-input v-model="form.client_phone" v-bind="telProps" />
+              </b-form-group>
+
+              <!-- Full Address -->
+              <h4 class="text-center mb-3">
+                Indirizzo domicilio
+              </h4>
+              <!-- Country + City -->
+              <b-row>
+                <b-col>
+                  <!-- Country -->
+                  <b-form-group
+                    id="input-group-7"
+                    label="Nazione"
+                    label-for="input-country"
+                  >
+                    <!-- Select -->
+                    <b-form-select id="input-country" v-model="form.client.address.country" :options="countries" required />
+                  </b-form-group>
+                </b-col>
+                <b-col>
+                  <!-- City -->
+                  <b-form-group
+                    id="input-group-10"
+                    label="Città"
+                    label-for="input-city"
+                  >
+                    <b-form-input id="input-city" v-model="form.client.address.city" type="text" placeholder="Es: Cave di Marmo" required />
+                  </b-form-group>
+                </b-col>
+              </b-row>
+              <!-- Address + Home number -->
+              <b-row>
+                <b-col>
+                  <!-- Address -->
+                  <b-form-group
+                    id="input-group-5"
+                    label="Via"
+                    label-for="input-address"
+                  >
+                    <b-form-input
+                      id="input-address"
+                      v-model="form.client_address"
+                      type="text"
+                      required
+                      placeholder="Es: Cave di Marmo"
+                    />
+                  </b-form-group>
+                </b-col>
+                <b-col>
+                  <b-form-group
+                    id="input-group-6"
+                    label="Numero casa"
+                    label-for="input-home-number"
+                  >
+                    <b-form-input
+                      id="input-home-number"
+                      v-model="form.client_home_number"
+                      type="text"
+                      required
+                      placeholder="Es: 4"
+                    />
+                  </b-form-group>
+                </b-col>
+              </b-row>
+            </section>
+            <!-- Submit button -->
+            <b-form-group class="mt-5">
+              <b-button type="submit" variant="primary">
+                Procedi <b-icon-arrow-right-circle />
+              </b-button>
+            </b-form-group>
+          </b-form>
+        </div>
+
+        <hr>
+
+        <b-form :v-else-if="!stepper.bookingDone">
+          <!-- Booking related information -->
+          <h4>
+            <b-badge pill variant="primary">
+              <b-icon-calendar2-week />
+            </b-badge> Prenotazione
+          </h4>
+
+          <section>
+            <b-row>
+              <b-col>
+                <!-- Start date -->
+                <b-form-datepicker
+                  id="datepicker-start"
+                  v-model="form.booking.start_date"
+                  class="mb-2"
+                  :min="today"
+                  @input="genEndDate"
+                />
+              </b-col>
+              <b-col>
+                <!-- End date -->
+                <b-form-datepicker
+                  id="datepicker-end"
+                  v-model="form.booking.end_date"
+                  :min="today"
+                  class="mb-2"
+                  :disabled="!isStartDateValid()"
+                />
+              </b-col>
+            </b-row>
+
+            <!-- Show message -->
+            <div v-if="isStartDateValid() && isEndDateValid()">
+              Totale notti:  <b-badge pill variant="info">
+                {{ calculateNights }}
+              </b-badge>
+
+              <!-- Select available rooms -->
+              <b-form-group
+                id="input-group-7"
+                class="mt-3"
+                label="Camere disponbili"
+                label-for="input-rooms"
+              >
+                <!-- Select -->
+                <b-form-select id="input-rooms" required />
+              </b-form-group>
+            </div>
+            <div v-else>
+              <p class="text-danger">
+                Le date devono rispettare i seguenti canoni:
+              </p>
+              <ul>
+                <li>La data di inizio del pernottamento deve corrispondere alla data odierna oppure ad una nel futuro</li>
+                <li>La data di inizio e di fine pernottamento <u>non possono coincidere</u></li>
+              </ul>
+            </div>
+          </section>
+
+          <!-- Submit button -->
+          <b-form-group class="mt-5">
+            <b-button type="submit" variant="primary">
+              Conferma modifiche
+            </b-button>
+          </b-form-group>
+        </b-form>
       </b-tab>
     </b-tabs>
   </article>
@@ -61,11 +274,131 @@
 .action-thumbnail img {
   max-height: 30vh;
 }
+.flag img {
+  height: 15px;
+  width: auto;
+}
 </style>
 
 <script>
 export default {
   name: 'Prenotazioni',
+  data () {
+    return {
+      form: {
+        client: {
+          name: '',
+          surname: '',
+          email: '',
+          phone: '',
+          address: {
+            country: 'CH',
+            city: '',
+            houseNumber: ''
+          }
+        },
+        booking: {
+          start_date: '',
+          end_date: '',
+          room: 0
+        }
+      },
+      stepper: {
+        clientDone: false,
+        bookingDone: false
+      },
+      countries: [],
+      telProps: {
+        defaultCountry: 'CH',
+        mode: 'international',
+        placeholder: 'Es: 0765969984',
+        required: true,
+        inputId: 'input-phone'
+      },
+      today: this.$moment().format('YYYY-MM-DD')
+    }
+  },
+  computed: {
+    calculateNights () {
+      if (this.form.booking.start_date && this.form.booking.start_date) {
+        const startDate = this.$moment(this.form.booking.start_date)
+        const endDate = this.$moment(this.form.booking.end_date)
+        return endDate.diff(startDate, 'days')
+      } else {
+        return 0
+      }
+    }
+  },
+  mounted () {
+    // Set date picker to today's date
+    // this.form.booking.start_date = this.today
+
+    // Load countries using restcounties APIs
+    this.loadCountries()
+  },
+  methods: {
+    registerBooking () {
+      console.log(this.form)
+    },
+    async loadCountries () {
+      // Check if fetch is needed
+      // eslint-disable-next-line no-console
+      console.info('Total cached countries: ' + this.$store.state.countries.data.length)
+      // Check if there is data saved inside Vuex Store
+      if (this.$store.state.countries.data.length === 0) {
+        // Fetch data
+        const response = await fetch('https://restcountries.eu/rest/v2/all')
+          .then(response => response.json())
+
+        const temp = []
+        // Assign data to countries
+        for (const country of response) {
+          temp.push({ value: country.alpha2Code, text: country.name, flag: country.flag })
+        }
+        // Set vuex store
+        this.$store.commit('countries/setCountries', temp)
+      }
+      // Set data using Vuex store
+      this.countries = this.$store.state.countries.data
+    },
+    isStartDateValid () {
+      // Check if a date was set
+      if (this.form.booking.start_date) {
+        // Create moment object with only Date (trucate time)
+        const today = this.$moment(this.today)
+        // Parse selected dates
+        const startDate = this.$moment(this.form.booking.start_date)
+
+        // Check if start date is same or after today & set flag
+        return today.isSameOrBefore(startDate)
+      } else {
+        // Set flag to false -> Start date not set
+        return false
+      }
+    },
+    isEndDateValid () {
+      if (this.form.booking.start_date && this.form.booking.end_date) {
+        // Create moment object with only Date (trucate time)
+        const today = this.$moment(this.today)
+        // Parse selected dates
+        const startDate = this.$moment(this.form.booking.start_date)
+        const endDate = this.$moment(this.form.booking.end_date)
+        return today.isBefore(endDate) && startDate.isBefore(endDate)
+      } else {
+        return false
+      }
+    },
+    genEndDate () {
+      if (this.form.booking.start_date) {
+        // Parse start date
+        const startDate = this.$moment(this.form.booking.start_date)
+        // Calculate end date (date + 1 day)
+        const endDateFormatted = startDate.add(1, 'days').format('YYYY-MM-DD')
+        // Generate date
+        this.form.booking.end_date = endDateFormatted
+      }
+    }
+  },
   layout: 'admin'
 }
 </script>

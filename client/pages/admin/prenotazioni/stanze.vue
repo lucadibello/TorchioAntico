@@ -248,7 +248,7 @@ export default {
           })
         } else {
           this.$swal({
-            title: 'Accesso al sistema',
+            title: 'Creazione stanza',
             text: 'C\'è stato un errore non conosciuto, riprova più tardi',
             icon: 'error',
             showConfirmButton: true
@@ -307,6 +307,7 @@ export default {
         icon: 'warning',
         showConfirmButton: true,
         confirmButtonText: 'Conferma eliminazione',
+        cancelButtonText: 'Annulla',
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         showCancelButton: true

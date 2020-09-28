@@ -4,6 +4,7 @@
 
 <script lang="ts">
 export default {
-  name: 'AdminGeneric'
+  name: 'AdminGeneric',
+  middleware: 'auth'
 }
 </script>

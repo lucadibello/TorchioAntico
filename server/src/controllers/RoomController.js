@@ -31,7 +31,6 @@ module.exports = {
     })
   },
   delete (req, res) {
-    console.log('Reached')
     Room.destroy({
       where: {
         id: req.params.id

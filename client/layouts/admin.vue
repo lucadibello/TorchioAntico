@@ -40,4 +40,14 @@ export default {
     color:inherit;
     text-decoration: none;
   }
+
+  /* Swal notification blur */
+  body.swal2-shown > [aria-hidden="true"] {
+    filter: blur(10px);
+  }
+
+  body > * {
+    transition: 0.1s filter linear;
+  }
+
 </style>
