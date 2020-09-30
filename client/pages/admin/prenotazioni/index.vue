@@ -103,7 +103,7 @@
               <!-- Email -->
               <b-form-group
                 id="input-group-3"
-                label="Cognome"
+                label="E-Mail"
                 label-for="input-email"
               >
                 <b-form-input
@@ -187,6 +187,67 @@
                 </b-col>
               </b-row>
             </section>
+
+            <h4>
+              <b-badge pill variant="primary">
+                <b-icon-calendar2-week />
+              </b-badge> Prenotazione
+            </h4>
+            <!-- Booking information -->
+            <section>
+              <b-row>
+                <b-col>
+                  <!-- Start date -->
+                  <b-form-datepicker
+                    id="datepicker-start"
+                    v-model="form.booking.start_date"
+                    class="mb-2"
+                    :min="today"
+                    required
+                    @input="genEndDate"
+                  />
+                </b-col>
+                <b-col>
+                  <!-- End date -->
+                  <b-form-datepicker
+                    id="datepicker-end"
+                    v-model="form.booking.end_date"
+                    :min="today"
+                    class="mb-2"
+                    required
+                    :disabled="!isStartDateValid()"
+                    @input="loadAvailableRooms"
+                  />
+                </b-col>
+              </b-row>
+
+              <!-- Show message -->
+              <div v-if="isStartDateValid() && isEndDateValid()">
+                Totale notti:  <b-badge pill variant="info">
+                  {{ calculateNights }}
+                </b-badge>
+
+                <!-- Select available rooms -->
+                <b-form-group
+                  id="input-group-7"
+                  class="mt-3"
+                  text="Camere disponbili"
+                  label-for="input-rooms"
+                >
+                  <!-- Select -->
+                  <b-form-select id="input-rooms" v-model="form.booking.room" :options="availableRooms" required />
+                </b-form-group>
+              </div>
+              <div v-else>
+                <p class="text-danger">
+                  Le date devono rispettare i seguenti canoni:
+                </p>
+                <ul>
+                  <li>La data di inizio del pernottamento deve corrispondere alla data odierna oppure ad una nel futuro</li>
+                  <li>La data di inizio e di fine pernottamento <u>non possono coincidere</u></li>
+                </ul>
+              </div>
+            </section>
             <!-- Submit button -->
             <b-form-group class="mt-5">
               <b-button type="submit" variant="primary">
@@ -195,76 +256,7 @@
             </b-form-group>
           </b-form>
         </div>
-
         <hr>
-
-        <b-form :v-else-if="!stepper.bookingDone">
-          <!-- Booking related information -->
-          <h4>
-            <b-badge pill variant="primary">
-              <b-icon-calendar2-week />
-            </b-badge> Prenotazione
-          </h4>
-
-          <section>
-            <b-row>
-              <b-col>
-                <!-- Start date -->
-                <b-form-datepicker
-                  id="datepicker-start"
-                  v-model="form.booking.start_date"
-                  class="mb-2"
-                  :min="today"
-                  @input="genEndDate"
-                />
-              </b-col>
-              <b-col>
-                <!-- End date -->
-                <b-form-datepicker
-                  id="datepicker-end"
-                  v-model="form.booking.end_date"
-                  :min="today"
-                  class="mb-2"
-                  :disabled="!isStartDateValid()"
-                />
-              </b-col>
-            </b-row>
-
-            <!-- Show message -->
-            <div v-if="isStartDateValid() && isEndDateValid()">
-              Totale notti:  <b-badge pill variant="info">
-                {{ calculateNights }}
-              </b-badge>
-
-              <!-- Select available rooms -->
-              <b-form-group
-                id="input-group-7"
-                class="mt-3"
-                label="Camere disponbili"
-                label-for="input-rooms"
-              >
-                <!-- Select -->
-                <b-form-select id="input-rooms" required />
-              </b-form-group>
-            </div>
-            <div v-else>
-              <p class="text-danger">
-                Le date devono rispettare i seguenti canoni:
-              </p>
-              <ul>
-                <li>La data di inizio del pernottamento deve corrispondere alla data odierna oppure ad una nel futuro</li>
-                <li>La data di inizio e di fine pernottamento <u>non possono coincidere</u></li>
-              </ul>
-            </div>
-          </section>
-
-          <!-- Submit button -->
-          <b-form-group class="mt-5">
-            <b-button type="submit" variant="primary">
-              Conferma modifiche
-            </b-button>
-          </b-form-group>
-        </b-form>
       </b-tab>
     </b-tabs>
   </article>
@@ -300,9 +292,10 @@ export default {
         booking: {
           start_date: '',
           end_date: '',
-          room: 0
+          room: false
         }
       },
+      availableRooms: [],
       stepper: {
         clientDone: false,
         bookingDone: false
@@ -326,6 +319,21 @@ export default {
         return endDate.diff(startDate, 'days')
       } else {
         return 0
+      }
+    }
+  },
+  watch: {
+    // eslint-disable-next-line object-shorthand
+    'form.booking.start_date': function (val, oldVal) {
+      if (this.isStartDateValid() && this.form.booking.end_date !== '' && oldVal !== '') {
+        // Init moment objects
+        const oldStartDate = this.$moment(oldVal)
+        const startDate = this.$moment(val)
+        const endDate = this.$moment(this.form.booking.end_date)
+        // Calculate days diff
+        const daysDiff = endDate.diff(oldStartDate, 'days')
+        // Calculate end date using old days difference
+        this.form.booking.end_date = startDate.add(daysDiff, 'days').format('YYYY-MM-DD')
       }
     }
   },
@@ -361,6 +369,22 @@ export default {
       // Set data using Vuex store
       this.countries = this.$store.state.countries.data
     },
+    loadAvailableRooms () {
+      if (this.isStartDateValid() && this.isEndDateValid()) {
+        // If valid: load available rooms
+
+        // Send request to rooms api
+        this.$axios.get(`/booking/available/${this.form.booking.start_date}/${this.form.booking.end_date}`)
+          .then((availableRooms) => {
+            // Map data
+            this.availableRooms = availableRooms.data.map((room) => {
+              return { value: room.id, text: room.name }
+            })
+          }).catch((err) => {
+            console.warn(err)
+          })
+      }
+    },
     isStartDateValid () {
       // Check if a date was set
       if (this.form.booking.start_date) {
@@ -389,7 +413,10 @@ export default {
       }
     },
     genEndDate () {
-      if (this.form.booking.start_date) {
+      // start date = set, end date not set
+      if (this.isStartDateValid() && this.form.booking.end_date === '') {
+        // Start date + 1 day
+
         // Parse start date
         const startDate = this.$moment(this.form.booking.start_date)
         // Calculate end date (date + 1 day)
@@ -397,6 +424,8 @@ export default {
         // Generate date
         this.form.booking.end_date = endDateFormatted
       }
+      // Get available rooms
+      this.loadAvailableRooms()
     }
   },
   layout: 'admin'

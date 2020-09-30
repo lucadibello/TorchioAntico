@@ -31,6 +31,9 @@ app.use('/api/user', user)
 const room = require('./routes/api/room')
 app.use('/api/room', room)
 
+const booking = require('./routes/api/booking')
+app.use('/api/booking', booking)
+
 // Sync DB
 sequelize.sync({ alter: true, drop: false }).then(() => {
     // Start app

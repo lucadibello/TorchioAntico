@@ -20,6 +20,9 @@ fs.readdirSync(__dirname)
     db[model.name] = model;
   });
 
+// Setup foreign keys
+db.Room.hasMany(db.Booking, {foreignKey: 'room_id'})
+
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
