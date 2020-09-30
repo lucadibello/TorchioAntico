@@ -346,6 +346,7 @@ export default {
   },
   methods: {
     registerBooking () {
+      // eslint-disable-next-line no-console
       console.log(this.form)
     },
     async loadCountries () {
@@ -381,6 +382,7 @@ export default {
               return { value: room.id, text: room.name }
             })
           }).catch((err) => {
+            // eslint-disable-next-line no-console
             console.warn(err)
           })
       }
