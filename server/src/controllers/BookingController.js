@@ -4,6 +4,42 @@ const { Booking, Room, Sequelize } = require("../models")
 const Op = Sequelize.Op
 
 module.exports = {
+  get (req, res) {
+    Booking.findAll({
+      order: [
+        ['booking_start_date', 'ASC'],
+        ['booking_end_date', 'ASC']
+      ]
+    }).then((bookings) => {
+      res.send(bookings)
+    })
+  },
+  add (req, res) {
+    Booking.create({
+      client_name: req.body.client_name,
+      client_surname: req.body.client_surname,
+      client_email: req.body.client_email,
+      client_phone: req.body.client_phone,
+      client_address_country: req.body.address_country,
+      client_address_city: req.body.address_city,
+      client_address_street: req.body.address_street,
+      client_address_housenumber: req.body.address_house_number,
+      booking_start_date: req.body.booking_start_date,
+      booking_end_date: req.body.booking_end_date,
+      room_id: req.body.booking_room
+    }).then((booking) => {
+      if (!booking) {
+        res.status(400).send({
+          message: 'An error accurred during the booking process',
+          _err: booking
+        })
+      } else {
+        res.send({
+          message: 'Booking registered correctly'
+        })
+      }
+    })
+  },
   getAvailables (req, res) {
     // Get start and end dates
     const START = req.params.start

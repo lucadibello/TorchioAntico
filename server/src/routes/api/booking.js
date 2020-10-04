@@ -14,5 +14,7 @@ router.use(JwtChecker.authenticateToken)
 
 // Get available rooms in a certain timespan (used for booking checks)
 router.get('/available/:start/:end',BookingControllerPolicy.getAvailables, BookingController.getAvailables)
+router.get('/', BookingController.get)
+router.post('/',BookingControllerPolicy.add, BookingController.add)
 
 module.exports = router;

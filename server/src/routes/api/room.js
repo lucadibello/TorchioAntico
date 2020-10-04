@@ -16,6 +16,7 @@ router.use(JwtChecker.authenticateToken)
 router.post('/', RoomControllerPolicy.createUpdate, RoomController.create)
 router.delete('/:id', RoomController.delete)
 router.get('/', RoomController.get)
+router.get('/:id', RoomController.getSingle)
 router.patch('/:id', RoomControllerPolicy.createUpdate, RoomController.update)
 
 module.exports = router;

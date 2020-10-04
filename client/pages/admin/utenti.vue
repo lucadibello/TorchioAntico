@@ -110,6 +110,7 @@
         :fields="fields"
         :items="users.data"
         :busy.sync="busy"
+        :responsive="true"
         show-empty
       >
         <!-- Show more button -->

@@ -76,8 +76,9 @@
                   >
                     <b-form-input
                       id="input-name"
-                      v-model="form.client_name"
+                      v-model="form.client.name"
                       type="text"
+                      :formatter="nameFormatter"
                       required
                       placeholder="Es: Pinco"
                     />
@@ -92,7 +93,8 @@
                   >
                     <b-form-input
                       id="input-surname"
-                      v-model="form.client_surname"
+                      v-model="form.client.surname"
+                      :formatter="nameFormatter"
                       type="text"
                       required
                       placeholder="Es: Pallino"
@@ -108,7 +110,7 @@
               >
                 <b-form-input
                   id="input-email"
-                  v-model="form.client_email"
+                  v-model="form.client.email"
                   type="email"
                   required
                   placeholder="Es: pinco.pallino@esempio.ch"
@@ -121,7 +123,7 @@
                 label="Numero di telefono"
                 label-for="input-phone"
               >
-                <vue-tel-input v-model="form.client_phone" v-bind="telProps" />
+                <vue-tel-input v-bind="telProps" @validate="telHandler" />
               </b-form-group>
 
               <!-- Full Address -->
@@ -148,7 +150,7 @@
                     label="Città"
                     label-for="input-city"
                   >
-                    <b-form-input id="input-city" v-model="form.client.address.city" type="text" placeholder="Es: Cave di Marmo" required />
+                    <b-form-input id="input-city" v-model="form.client.address.city" type="text" placeholder="Es: Arzo" required />
                   </b-form-group>
                 </b-col>
               </b-row>
@@ -163,7 +165,7 @@
                   >
                     <b-form-input
                       id="input-address"
-                      v-model="form.client_address"
+                      v-model="form.client.address.street"
                       type="text"
                       required
                       placeholder="Es: Cave di Marmo"
@@ -178,7 +180,7 @@
                   >
                     <b-form-input
                       id="input-home-number"
-                      v-model="form.client_home_number"
+                      v-model="form.client.address.houseNumber"
                       type="text"
                       required
                       placeholder="Es: 4"
@@ -286,7 +288,8 @@ export default {
           address: {
             country: 'CH',
             city: '',
-            houseNumber: ''
+            houseNumber: '',
+            street: ''
           }
         },
         booking: {
@@ -296,10 +299,6 @@ export default {
         }
       },
       availableRooms: [],
-      stepper: {
-        clientDone: false,
-        bookingDone: false
-      },
       countries: [],
       telProps: {
         defaultCountry: 'CH',
@@ -308,6 +307,7 @@ export default {
         required: true,
         inputId: 'input-phone'
       },
+      telValid: false,
       today: this.$moment().format('YYYY-MM-DD')
     }
   },
@@ -338,16 +338,105 @@ export default {
     }
   },
   mounted () {
-    // Set date picker to today's date
-    // this.form.booking.start_date = this.today
-
     // Load countries using restcounties APIs
     this.loadCountries()
   },
   methods: {
     registerBooking () {
-      // eslint-disable-next-line no-console
-      console.log(this.form)
+      // Check if booking date are set (cannot be checked via html)
+      if (this.isStartDateValid() && this.isEndDateValid()) {
+        // Check if phone number is valid
+        if (this.telValid) {
+          // Setup data for API request
+          const data = {
+            client_name: this.form.client.name,
+            client_surname: this.form.client.surname,
+            client_email: this.form.client.email,
+            client_phone: this.form.client.phone,
+            address_country: this.form.client.address.country,
+            address_city: this.form.client.address.city,
+            address_house_number: this.form.client.address.houseNumber,
+            address_street: this.form.client.address.street,
+            booking_start_date: this.form.booking.start_date,
+            booking_end_date: this.form.booking.end_date,
+            booking_room: this.form.booking.room
+          }
+
+          // Send request using the parsed data
+          this.$axios.post('/booking', data).then((result) => {
+            // Booking done: show message + clear form
+
+            // Clear every input
+            this.form.client.name = ''
+            this.form.client.surname = ''
+            this.form.client.email = ''
+            this.form.client.phone = ''
+            this.form.client.address.country = ''
+            this.form.client.address.city = ''
+            this.form.client.address.houseNumber = ''
+            this.form.client.address.street = ''
+            this.form.booking.start_date = ''
+            this.form.booking.end_date = ''
+            this.form.booking.room = ''
+            // Clear available rooms + clear valid flag
+            this.telValid = false
+            this.availableRooms = []
+            // Show success message
+            this.$swal({
+              title: 'Prenotazione registrata correttamente',
+              icon: 'success',
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true
+            })
+          }).catch((err) => {
+            if (err.response && err.response.data.type === 'ER_ROOM_UNAVAILABLE') {
+              // Room is not available in the selected time span
+              this.$swal({
+                title: 'La stanza selezionata è già occupata nel arco di tempo selezionato, ricarica la pagina e riprova',
+                icon: 'error',
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true
+              })
+            } else {
+              // Show generic error
+              this.$swal({
+                title: 'Aggiunta prenotazione',
+                text: 'C\'è stato un errore non conosciuto, riprova più tardi',
+                icon: 'warning',
+                showConfirmButton: true
+              })
+            }
+          })
+        } else {
+          // Notify user that the phone number is not valid
+          this.$swal({
+            title: 'Il numero di telefono non è valido. Controlla e riprova',
+            icon: 'error',
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true
+          })
+        }
+      } else {
+        // Notify user of the missing data
+        this.$swal({
+          title: 'Devi impostare le date della prenotazione',
+          icon: 'error',
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true
+        })
+      }
     },
     async loadCountries () {
       // Check if fetch is needed
@@ -428,6 +517,30 @@ export default {
       }
       // Get available rooms
       this.loadAvailableRooms()
+    },
+    telHandler ({ number, isValid, country }) {
+      if (this.telValid !== isValid) {
+        // Set new state
+        this.telValid = isValid
+
+        // Check if inserted number is valid
+        if (isValid) {
+          // Set data value using international number format
+          this.form.client.phone = number.e164
+        }
+      }
+    },
+    nameFormatter (value) {
+      // Split letters
+      const splitStr = value.toLowerCase().split(' ')
+      // Cycle every letter
+      for (let i = 0; i < splitStr.length; i++) {
+        // You do not need to check if i is larger than splitStr length, as your for does that for you
+        // Assign it back to the array
+        splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1)
+      }
+      // Directly return the joined string
+      return splitStr.join(' ')
     }
   },
   layout: 'admin'

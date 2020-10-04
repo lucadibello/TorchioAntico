@@ -17,6 +17,13 @@ module.exports = {
       }
     })
   },
+  getSingle (req, res) {
+    Room.findOne({
+      where: {id: req.params.id}
+    }).then((room) => {
+      res.send(room)
+    })
+  },
   get (req, res) {
     Room.findAll().then((rooms) => {
       if (rooms) {

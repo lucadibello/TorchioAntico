@@ -15,3 +15,6 @@ ER_JWT_DEAD: When the JWT token is not valid
 
 ER_USER_NOT_FOUND: When the selected user cannot be found in the DB
 ER_USER_EXISTS: When the user is already present in the DB
+
+## Booking
+ER_ROOM_UNAVAILABLE: When the selected room is not available in the specified time span

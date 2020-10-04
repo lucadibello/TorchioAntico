@@ -10,10 +10,10 @@ module.exports = {
     }
 
     // Get if there is already a user with same email
-    User.findOne({
+    User.findAll({
       where: {email: req.body.email}
-    }).then(user => {
-      if (user) {
+    }).then(users => {
+      if (users.length > 1) {
         // User with same E-Mail address already exists
         res.status(400).send({
           error: 'An user with the same email address already exists',

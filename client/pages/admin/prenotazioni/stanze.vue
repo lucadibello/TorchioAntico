@@ -51,6 +51,7 @@
         :items="data.rooms"
         :busy.sync="isBusy"
         show-empty
+        :responsive="true"
       >
         <!-- Show more button -->
         <template v-slot:cell(actions)="{ item }">
