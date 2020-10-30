@@ -36,16 +36,13 @@
     </b-card-group>
 
     <!-- Chart box -->
-    <div>
-      <h1>Chart here</h1>
+    <div class="w-100 mt-5">
+      <h2>Prenotazioni mensili</h2>
+      <!-- Load animation -->
+      <b-overlay :show="!charts.bookings.loaded" :opacity=".95" spinner-type="grow" spinner-variant="success">
+        <line-chart v-if="charts.bookings.loaded" :data="Object.values(charts.bookings.data)" :labels="charts.bookings.labels" :data-label="charts.bookings.dataLabel" />
+      </b-overlay>
     </div>
-
-    <ul>
-      <li>Counter prenotazioni (mensili) </li>
-      <li>Counter utenti con accesso</li>
-      <li>Shortcuts per servizi del sito (gestione prenotazioni, visualizzazione)</li>
-      <li>Grafici (?)</li>
-    </ul>
   </article>
 </template>
 
@@ -72,6 +69,27 @@ export default {
           lastUpdate: false,
           loaded: false
         }
+      },
+      charts: {
+        bookings: {
+          dataLabel: 'Prenotazioni mensili',
+          data: {
+            1: 0,
+            2: 0,
+            3: 0,
+            4: 0,
+            5: 0,
+            6: 0,
+            7: 0,
+            8: 0,
+            9: 0,
+            10: 0,
+            11: 0,
+            12: 0
+          },
+          labels: ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'],
+          loaded: false
+        }
       }
     }
   },
@@ -82,6 +100,8 @@ export default {
     this.getRoomsCounter()
     // Update booking counter
     this.getBookingsCounter()
+    // Load booking chart
+    this.getBookingChartData()
   },
   methods: {
     getUsersCounter () {
@@ -103,8 +123,27 @@ export default {
       })
     },
     getBookingsCounter () {
-      // TODO: Finish this montly booking counter
-      this.counters.bookings.loaded = true
+      this.$axios.get('booking/monthly').then((bookings) => {
+        // Update user counter
+        this.counters.bookings.data = bookings.data.length
+        this.counters.bookings.lastUpdate = this.$moment().format('HH:mm:ss')
+      }).finally(() => {
+        this.counters.bookings.loaded = true
+      })
+    },
+    getBookingChartData () {
+      // fetch data
+      this.$axios.get('booking/stats').then((stats) => {
+        // Extract response data
+        const monthlyStatistics = stats.data
+        // Cycle every month's data
+        monthlyStatistics.forEach((monthData) => {
+          // Set data for month
+          this.charts.bookings.data[monthData.month] = monthData.count
+        })
+      }).finally(() => {
+        this.charts.bookings.loaded = true
+      })
     }
   }
 }

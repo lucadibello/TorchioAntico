@@ -46,43 +46,71 @@ export default {
   },
   methods: {
     login () {
-      // Try new login
-      this.$auth.loginWith('local', { data: this.form }).then((result) => {
-        // Show swal notification
-        const user = this.$store.state.auth.user
-        // Show notification
-        this.$swal({
-          title: 'Benvenuto ' + user.name + '!',
-          icon: 'success',
-          toast: true,
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 3000,
-          timerProgressBar: true
-        })
-      }).catch((err) => {
-        // eslint-disable-next-line no-console
-        console.warn(err)
-        if (err.response && err.response.data.type === 'ER_LOGIN_FAILED') {
-          // Specific error
+      if (this.isEmailValid()) {
+        // Try new login
+        this.$auth.loginWith('local', { data: this.form }).then((result) => {
+          // Show swal notification
+          const user = this.$store.state.auth.user
+          // Show notification
           this.$swal({
-            title: 'Email o password errati',
-            icon: 'error',
+            title: 'Benvenuto ' + user.name + '!',
+            icon: 'success',
             toast: true,
             position: 'top-end',
             showConfirmButton: false,
             timer: 3000,
             timerProgressBar: true
           })
-        } else {
-          this.$swal({
-            title: 'Accesso al sistema',
-            text: 'C\'è stato un errore non conosciuto, riprova più tardi',
-            icon: 'error',
-            showConfirmButton: true
-          })
-        }
-      })
+        }).catch((err) => {
+          // eslint-disable-next-line no-console
+          console.warn(err)
+          if (err.response && err.response.data.type === 'ER_LOGIN_FAILED') {
+            // Specific error
+            this.$swal({
+              title: 'Email o password errati',
+              icon: 'error',
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true
+            })
+          } else if (err.response) {
+            // Print error
+            this.$swal({
+              title: err.response.data.error,
+              icon: 'error',
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true
+            })
+          } else {
+            this.$swal({
+              title: 'Accesso al sistema',
+              text: 'C\'è stato un errore non conosciuto, riprova più tardi',
+              icon: 'error',
+              showConfirmButton: true
+            })
+          }
+        })
+      } else {
+        // Show email error
+        this.$swal({
+          title: "L'email inserita non è valida. Controlla l'email e riprova.",
+          icon: 'error',
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true
+        })
+      }
+    },
+    isEmailValid () {
+      // Check if email is valid
+      return /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(this.form.email)
     }
   },
   middleware: 'auth',

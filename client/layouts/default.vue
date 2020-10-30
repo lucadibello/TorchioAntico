@@ -61,9 +61,8 @@ html {
 }
 </style>
 
-<script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
+<script>
+export default {
   name: 'DefaultLayout'
-})
+}
 </script>

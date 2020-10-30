@@ -4,7 +4,7 @@ module.exports = {
   login(req, res, next) {
     // Define data schema
     const schema = Joi.object({
-      email: Joi.string().email().required(),
+      email: Joi.string().email().required().error((errors) => new Error("L'email inserita non ha un formato valido")),
       password: Joi.string().required(),
     });
 

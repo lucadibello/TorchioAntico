@@ -13,7 +13,7 @@
     <b-tabs content-class="mt-3 mb-5">
       <!-- View tab -->
       <b-tab title="Visualizzazione" active>
-        <h4>Visualizzazioni disponbili</h4>
+        <h2>Visualizzazioni disponbili</h2>
         <b-card-group deck>
           <b-card
             class="action-thumbnail"
@@ -233,11 +233,18 @@
                 <b-form-group
                   id="input-group-7"
                   class="mt-3"
-                  text="Camere disponbili"
+                  label="Camere disponbili"
                   label-for="input-rooms"
                 >
                   <!-- Select -->
-                  <b-form-select id="input-rooms" v-model="form.booking.room" :options="availableRooms" required />
+                  <div v-if="availableRooms.length > 0">
+                    <b-form-select id="input-rooms" v-model="form.booking.room" :options="availableRooms" required />
+                  </div>
+                  <div v-else class="text-center">
+                    <p class="text-danger">
+                      Non ci sono stanze disponibili nell'arco di tempo selezionato
+                    </p>
+                  </div>
                 </b-form-group>
               </div>
               <div v-else>
@@ -439,9 +446,6 @@ export default {
       }
     },
     async loadCountries () {
-      // Check if fetch is needed
-      // eslint-disable-next-line no-console
-      console.info('Total cached countries: ' + this.$store.state.countries.data.length)
       // Check if there is data saved inside Vuex Store
       if (this.$store.state.countries.data.length === 0) {
         // Fetch data

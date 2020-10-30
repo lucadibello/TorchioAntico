@@ -1,8 +1,10 @@
 <template>
-  <h1>Guest: Page not found</h1>
+  <b-container fluid>
+    <NotFound />
+  </b-container>
 </template>
 
-<script lang="ts">
+<script>
 export default {
   name: 'GuestGeneric'
 }

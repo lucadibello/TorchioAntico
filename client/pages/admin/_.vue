@@ -1,8 +1,10 @@
 <template>
-  <h1>ADMIN: Page not found</h1>
+  <b-container fluid>
+    <NotFound link="/admin/dashboard" btn-text="Torna alla dashboard" text="Sembra proprio che ti sei perso.. clicca il pusante per tornare alla dashboard del pannello di amministrazione!" />
+  </b-container>
 </template>
 
-<script lang="ts">
+<script>
 export default {
   name: 'AdminGeneric',
   middleware: 'auth'

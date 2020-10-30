@@ -1,5 +1,10 @@
 <template>
   <section>
+    <nuxt-link to="/admin/prenotazioni">
+      <p class="text-primary">
+        <b-icon-arrow-bar-left /> Torna alla gestione delle prenotazioni
+      </p>
+    </nuxt-link>
     <h1>Formato tabellare</h1>
 
     <b-table
@@ -80,11 +85,12 @@
 
             <div style="float:right;">
               <!-- Actions -->
+              <!--  TODO: Add edit feature
               <b-button type="submit" variant="warning" @click="showModal(item)">
                 Modifica prenotazione
               </b-button>
-
-              <b-button type="submit" variant="danger" @click="deleteUser(item)">
+              -->
+              <b-button type="submit" variant="danger" @click="deleteBooking(item)">
                 Elimina prenotazione
               </b-button>
             </div>
@@ -97,7 +103,7 @@
 
 <script>
 export default {
-  name: 'BookingTable',
+  name: 'BookingTableView',
   data () {
     return {
       bookings: [],
@@ -153,6 +159,60 @@ export default {
     async getRoomInformation (roomId) {
       return await this.$axios.get(`/room/${roomId}`).then((room) => {
         return room.data
+      })
+    },
+    deleteBooking (booking) {
+      // Show generic error
+      this.$swal({
+        title: 'Rimozione prenotazione',
+        html: `Stai per eliminare la prenotazione di <b>${booking.client_name} ${booking.client_surname}</b>. Vuoi continuare?`,
+        icon: 'warning',
+        showConfirmButton: true,
+        confirmButtonText: 'Conferma eliminazione',
+        cancelButtonText: 'Annulla',
+        cancelButtonColor: '#3085d6',
+        confirmButtonColor: '#d33',
+        showCancelButton: true
+      }).then((status) => {
+        // Check if confirmed
+        if (status.isConfirmed) {
+          // Confirmed
+          this.$axios.delete('/booking/' + booking.id).then((res) => {
+            // Show toast success message
+            this.$swal({
+              title: 'Prenotazione rimossa correttamente',
+              icon: 'success',
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true
+            })
+            // Deleted successfully: reload table
+            this.loadBookings()
+          })
+        }
+      }).catch((err) => {
+        if (err.response && err.response.data.type === 'ER_BOOKING_NOT_FOUND') {
+          // show toast error
+          this.$swal({
+            title: 'La prenotazione risulta inesistente. Prova a ricaricare la pagina.',
+            icon: 'error',
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true
+          })
+        } else {
+          // show generic error
+          this.$swal({
+            title: 'Rimozione prenotazione',
+            html: 'C\'è stato un errore non conosciuto, riprova più tardi',
+            icon: 'warning',
+            showConfirmButton: true
+          })
+        }
       })
     }
   },

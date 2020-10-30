@@ -14,6 +14,49 @@ module.exports = {
       res.send(bookings)
     })
   },
+  getStatistics (req, res) {
+    // Group by month number + count bookings per month
+    Booking.count({
+      attributes: [
+        [Sequelize.fn("month", Sequelize.col("updatedAt")), 'month']
+      ],
+      group: ['month']
+    }).then((bookings) => {
+      res.send(bookings)
+    })
+  },
+  getMonthly (req, res) {
+    Booking.findAll({
+      order: [
+        ['booking_start_date', 'ASC'],
+        ['booking_end_date', 'ASC']
+      ],
+      where: [
+        Sequelize.where(Sequelize.fn("month", Sequelize.col("updatedAt")), new Date().getMonth()+1)
+      ]
+    }).then((bookings) => {
+      res.send(bookings)
+    })
+  },
+  delete (req, res) {
+    Booking.destroy({
+      where: {
+        id: req.params.id
+      }
+    }).then((result) => {
+      if (result) {
+        res.send({
+          message: "Booking deleted successfully"
+        })
+      } else {
+        res.status(400).send({
+          error: "The specified booking does not exists (id: "+req.params.id+")",
+          type: 'ER_BOOKING_NOT_FOUND',
+          _err: result
+        })
+      }
+    })
+  },
   add (req, res) {
     Booking.create({
       client_name: req.body.client_name,

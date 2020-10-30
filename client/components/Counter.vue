@@ -2,9 +2,9 @@
   <b-card :bg-variant="variant" :text-variant="textVariant" class="mb-2">
     <div class="row">
       <div class="col">
-        <h5 class="card-title text-uppercase mb-0">
+        <p class="h5 card-title text-uppercase mb-0">
           {{ title }}
-        </h5>
+        </p>
         <span class="h2 font-weight-bold mb-0">{{ value }}</span>
       </div>
       <div class="col-auto">
@@ -13,14 +13,16 @@
         </p>
       </div>
     </div>
-    <p class="mt-3 mb-0 text-sm">
-      <span class="mr-2">Aggiornato alle</span>
-      <span class="text-nowrap text-danger">
-        <b-badge v-if="updatedAt" variant="success">{{ updatedAt }}</b-badge>
-        <b-badge v-else variant="danger">Mai aggiornato</b-badge>
-      </span>
-    </p>
 
+    <template v-slot:footer>
+      <p class="mt-3 mb-0 text-sm">
+        <span class="mr-2">Aggiornato alle</span>
+        <span class="text-nowrap text-danger">
+          <b-badge v-if="updatedAt" variant="success">{{ updatedAt }}</b-badge>
+          <b-badge v-else variant="danger">Mai aggiornato</b-badge>
+        </span>
+      </p>
+    </template>
     <!-- Load animation -->
     <b-overlay :show="!loaded" :opacity=".95" spinner-type="grow" :spinner-variant="variant" no-wrap />
   </b-card>

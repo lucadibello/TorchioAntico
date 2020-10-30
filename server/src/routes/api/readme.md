@@ -18,3 +18,4 @@ ER_USER_EXISTS: When the user is already present in the DB
 
 ## Booking
 ER_ROOM_UNAVAILABLE: When the selected room is not available in the specified time span
+ER_BOOKING_NOT_FOUND: When the selected booking cannot be found in the DB
