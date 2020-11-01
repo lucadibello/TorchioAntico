@@ -21,13 +21,15 @@ export default {
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: [
+    'swiper/swiper-bundle.min.css'
   ],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
     { src: '~/plugins/axios' },
     { src: '~/plugins/phone', mode: 'client' },
-    { src: '~/plugins/line-chart', ssr: false }
+    { src: '~/plugins/line-chart', ssr: false },
+    { src: '~/plugins/vue-awesome-swiper', mode: 'client' }
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -52,7 +54,9 @@ export default {
     // Vue sweet alert
     'vue-sweetalert2/nuxt',
     // Optimized Moment.JS
-    '@nuxtjs/moment'
+    '@nuxtjs/moment',
+    // Nuxt Leaflet.js
+    'nuxt-leaflet'
   ],
 
   // Enable Vuex store

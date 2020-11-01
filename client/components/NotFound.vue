@@ -92,6 +92,10 @@ export default {
     text-align: center;
   }
 
+  #image {
+    transform: rotate(-30.5deg);
+  }
+
   .center {
     margin-bottom: 5vh;
   }
