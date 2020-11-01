@@ -64,9 +64,14 @@
 
         <!-- Collapsible section -->
         <b-collapse v-model="isLegendOpen">
-          <p class="lead text-center mb-5">
-            <b-icon-circle-fill variant="primary" /> <b>Al Torchio Antico</b>
-          </p>
+          <div class="text-center mb-5">
+            <p class="lead">
+              <b-icon-circle-fill variant="primary" /> <b>Al Torchio Antico</b>
+            </p>
+            <b-button class="w-50 mt-2" variant="light" pill>
+              Centra mappa
+            </b-button>
+          </div>
           <!-- List of POIs -->
 
           <!-- First row -->
@@ -145,7 +150,50 @@ export default {
   layout: 'default',
   data () {
     return {
-      isLegendOpen: false
+      isLegendOpen: false,
+      pois: [
+        {
+          name: 'Grotta dell\'Orso',
+          address: false,
+          link: 'https://www.ticino.ch/it/commons/details/La-Grotta-dell-Orso/14911.html',
+          cords: [45.930283, 9.020226],
+          text: 'La grotta, scoperta alcuni anni orsono, è stata aperta al pubblico nel 1999: in essa si possono vedere parecchie ossa ritrovate di orsi delle caverne'
+        },
+        {
+          name: 'Percorso del cemento',
+          address: 'Via dei Grotti 3, 6834 Morbio Inferiore',
+          link: 'https://percorsodelcemento.ch/',
+          cords: [45.85583, 9.0128],
+          text: 'Nel cuore del Parco delle Gole della Breggia, i terreni e le imponenti strutture di un cementificio in disuso sono stati riqualificati e ristrutturati nell’ambito di un singolare progetto territoriale e culturale'
+        },
+        {
+          name: 'Fiore di pietra',
+          address: false,
+          link: 'https://www.ticino.ch/it/commons/details/Fiore-di-pietra-Monte-Generoso/141970.html',
+          cords: [45.92818, 9.01871],
+          text: 'La nuova struttura turistica "Fiore di pietra" è un\'opera architettonica unica nel suo genere, firmata dall\'architetto Mario Botta'
+        },
+        {
+          name: 'FoxTown',
+          address: 'Via Angelo Maspoli 18, 6850 Mendrisio',
+          link: 'https://www.foxtown.com/',
+          cords: [45.87481, 8.9793],
+          text: 'Il tempio dell\'eleganza e del lusso con 160 negozi a prezzi scontati dal 30 al 70% tutto l\'anno, si trova a Mendrisio, a soli 15 minuti da Arzo'
+        },
+        {
+          name: 'Parco Archeologico Tremona-Castello',
+          address: 'Via al Castello 10, 6865 Tremona',
+          link: 'https://www.parco-archeologico.ch/',
+          cords: [45.88466, 8.95958],
+          text: 'Archeologi e volontari hanno portato alla luce i resti di un insediamento di collina e migliaia di reperti, che ci consentono di confrontarci con il passato dell’intera regione ed in particolar modo di capire la vita quotidiana di un villaggio medievale'
+        },
+        {
+          name: 'Monte San Giorgio',
+          link: 'http://www.montesangiorgio.org/',
+          cords: [45.91387, 8.94977],
+          text: 'Dalla sommità del San Giorgio, situata a quota 1000 metri nel sud del Ticino, si gode un panorama che spazia tra lago e montagne, regalando scorci indimenticabili sulla regione'
+        }
+      ]
     }
   }
 }
