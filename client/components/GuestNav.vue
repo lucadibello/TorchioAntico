@@ -10,10 +10,13 @@
           Home
         </b-nav-item>
         <b-nav-item href="#" disabled>
-          Chi siamo
+          Dove siamo
         </b-nav-item>
         <b-nav-item href="#" disabled>
           Storia
+        </b-nav-item>
+        <b-nav-item href="#" disabled>
+          Galleria
         </b-nav-item>
       </b-navbar-nav>
 

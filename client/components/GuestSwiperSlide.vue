@@ -1,6 +1,6 @@
 <template>
   <swiper-slide class="fill">
-    <b-img class="swiper-img" :src="src" fluid alt="Responsive image" />
+    <b-img class="swiper-img" :src="src" :alt="alt" fluid />
   </swiper-slide>
 </template>
 
@@ -11,6 +11,13 @@ export default {
     src: {
       type: String,
       required: true
+    },
+    alt: {
+      type: String,
+      required: false,
+      default: () => {
+        return ''
+      }
     },
     title: {
       type: String,

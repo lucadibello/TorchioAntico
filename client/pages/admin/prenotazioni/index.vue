@@ -238,7 +238,14 @@
                 >
                   <!-- Select -->
                   <div v-if="availableRooms.length > 0">
+                    <!-- Room selector -->
                     <b-form-select id="input-rooms" v-model="form.booking.room" :options="availableRooms" required />
+                    <div v-if="form.booking.room != false">
+                      <!-- Room selected -->
+                      <b-badge pill variant="success">
+                        {{ calculateTotalPrice(form.booking.room, calculateNights) }} <b>CHF</b>
+                      </b-badge>
+                    </div>
                   </div>
                   <div v-else class="text-center">
                     <p class="text-danger">
@@ -472,7 +479,7 @@ export default {
           .then((availableRooms) => {
             // Map data
             this.availableRooms = availableRooms.data.map((room) => {
-              return { value: room.id, text: room.name }
+              return { value: room.id, text: room.name, price: room.price }
             })
           }).catch((err) => {
             // eslint-disable-next-line no-console
@@ -545,6 +552,14 @@ export default {
       }
       // Directly return the joined string
       return splitStr.join(' ')
+    },
+    calculateTotalPrice (roomId, totDays) {
+      this.availableRooms.forEach((room) => {
+        if (room.value === roomId) {
+          return room.price * totDays
+        }
+      })
+      return 0
     }
   },
   layout: 'admin'

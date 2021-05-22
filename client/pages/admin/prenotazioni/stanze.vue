@@ -9,6 +9,7 @@
     <hr>
     <h4>Aggiungi una nuova stanza</h4>
     <b-form class="mb-5" @submit.prevent="addRoom">
+      <!-- Name -->
       <b-form-group
         id="input-group-1"
         label="Nome della stanza:"
@@ -20,6 +21,29 @@
           type="text"
           required
           placeholder="Inserisci un nome"
+        />
+      </b-form-group>
+
+      <!-- People -->
+      <label for="sb-inline">Posti letto</label>
+      <b-form-spinbutton id="sb-inline" v-model="form.nPeople" min="1" max="25" placeholder="--" />
+
+      <!-- Price-->
+      <b-form-group
+        id="input-group-3"
+        label="Prezzo per persona"
+        label-for="input-3"
+      >
+        <b-form-input
+          id="input-3"
+          v-model="form.price"
+          type="number"
+          lazy-formatter
+          :formatter="priceFormatter"
+          step="0.25"
+          min="0"
+          required
+          placeholder="Inserisci il prezzo per persona"
         />
       </b-form-group>
 
@@ -137,6 +161,29 @@
           />
         </b-form-group>
 
+        <!-- People -->
+        <label for="sb-inline">Posti letto</label>
+        <b-form-spinbutton id="sb-inline" v-model="modal.nPeople" min="1" max="25" placeholder="--" />
+
+        <!-- Price-->
+        <b-form-group
+          id="input-group-3"
+          label="Prezzo per persona"
+          label-for="input-3"
+        >
+          <b-form-input
+            id="input-3"
+            v-model="modal.price"
+            type="number"
+            lazy-formatter
+            :formatter="priceFormatter"
+            step="0.25"
+            min="0"
+            required
+            placeholder="Inserisci il prezzo per persona"
+          />
+        </b-form-group>
+
         <b-form-group
           id="input-group-1"
           label="Descrizione"
@@ -169,12 +216,16 @@ export default {
     return {
       form: {
         name: '',
-        description: ''
+        description: '',
+        nPeople: 1,
+        price: 0
       },
       modal: {
         id: null,
         name: '',
-        description: ''
+        description: '',
+        nPeople: 1,
+        price: 0
       },
       data: {
         rooms: [],
@@ -185,6 +236,19 @@ export default {
           key: 'name',
           label: 'Stanza',
           sortable: true
+        },
+        {
+          key: 'nPeople',
+          label: 'Posti letto',
+          sortable: true
+        },
+        {
+          key: 'price',
+          label: 'Prezzo (a persona)',
+          sortable: true,
+          formatter: (value) => {
+            return value + ' CHF'
+          }
         },
         {
           key: 'createdAt',
@@ -258,7 +322,7 @@ export default {
       })
     },
     async updateRoom (room) {
-      await this.$axios.patch('room/' + room.id, { name: room.name, description: room.description }).then(async () => {
+      await this.$axios.patch('room/' + room.id, { name: room.name, description: room.description, price: room.price, nPeople: room.nPeople }).then(async () => {
         // Close modal
         this.hideModal()
 
@@ -359,11 +423,22 @@ export default {
       this.modal.id = room.id
       this.modal.name = room.name
       this.modal.description = room.description
+      this.modal.nPeople = room.nPeople
+      this.modal.price = room.price
       // Toggle modal
       this.$refs.modal.show()
     },
     hideModal () {
       this.$refs.modal.hide()
+    },
+    priceFormatter (value) {
+      const newValue = parseFloat(value.replace(/[A-Za-z]/g, ''))
+      // Ensure that it is not NaN
+      if (isNaN(newValue)) {
+        return 0
+      } else {
+        return newValue
+      }
     }
   },
   layout: 'admin'

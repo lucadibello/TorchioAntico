@@ -47,7 +47,7 @@
         <nuxt-link v-slot="{ href, navigate }" to="/condizioni">
           <span>
             <a class="font-weight-bold text-dark" :href="href" @click="navigate">
-              TorchioAntico
+              Al Torchio Antico
             </a>
             &copy; Copyright {{ currentYear }}
           </span>

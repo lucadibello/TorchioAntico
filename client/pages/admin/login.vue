@@ -36,6 +36,7 @@
 <script>
 export default {
   name: 'Login',
+  layout: 'basic',
   data () {
     return {
       form: {

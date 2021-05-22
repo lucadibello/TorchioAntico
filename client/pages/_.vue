@@ -6,6 +6,7 @@
 
 <script>
 export default {
-  name: 'GuestGeneric'
+  name: 'GuestError',
+  layout: 'basic'
 }
 </script>

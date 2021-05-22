@@ -58,11 +58,6 @@ export default {
 </script>
 
 <style>
-/*
-.carousel-item > img {
-  height:300px;
-} */
-
 .custom-slide img{
   max-height: 10% !important;
   object-fit: cover;
