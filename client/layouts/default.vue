@@ -1,20 +1,33 @@
 <template>
-  <main>
+  <div>
     <!-- Nav bar -->
-    <guest-nav />
-
-    <!-- Load page here -->
-    <Nuxt class="spacer" />
+    <header role="navigation">
+      <guest-nav />
+    </header>
+    <main>
+      <!-- Load page here -->
+      <Nuxt class="spacer" />
+    </main>
 
     <!-- Footer -->
     <guest-footer />
-  </main>
+
+    <!-- Cookie law consent -->
+    <client-only>
+      <footer>
+        <cookie-law
+          theme="dark-lime"
+          message="Questo sito web utilizza i cookie per garantire la migliore esperienza sul nostro sito web."
+          button-text="Ho capito"
+        />
+      </footer>
+    </client-only>
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'DefaultLayout',
-  auth: 'guest'
+  name: 'DefaultLayout'
 }
 </script>
 
@@ -32,7 +45,7 @@ body {
 }
 
 .spacer {
-  margin-top: 10vh;
+  margin-top: 15vh;
 }
 
 @keyframes shake-animation {
@@ -44,5 +57,11 @@ body {
   8.92857% { transform:translate(5px,0) }
   10.71429% { transform:translate(0,0) }
   100% { transform:translate(0,0) }
+}
+
+@media only screen and (max-width: 600px) {
+  .spacer {
+    margin-top: 20vh !important;
+  }
 }
 </style>

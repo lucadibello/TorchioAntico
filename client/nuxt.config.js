@@ -53,7 +53,9 @@ export default {
     { src: '~/plugins/axios' },
     { src: '~/plugins/phone', mode: 'client' },
     { src: '~/plugins/line-chart', mode: 'client' },
-    { src: '~/plugins/vue-awesome-swiper', mode: 'client' }
+    { src: '~/plugins/vue-awesome-swiper', mode: 'client' },
+    { src: '~/plugins/vue-gallery-slideshow', mode: 'client' },
+    { src: '~/plugins/vue-cookie-law', mode: 'client' }
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)

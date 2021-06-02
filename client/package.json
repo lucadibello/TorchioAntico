@@ -25,7 +25,9 @@
     "swiper": "^6.6.2",
     "vue-awesome-swiper": "^4.1.1",
     "vue-chartjs": "^3.5.1",
+    "vue-cookie-law": "^1.13.3",
     "vue-country-region-select": "^2.0.14",
+    "vue-gallery-slideshow": "^1.5.2",
     "vue-sweetalert2": "^3.0.8",
     "vue-tel-input": "^4.4.0"
   },

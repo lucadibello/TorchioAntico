@@ -35,7 +35,7 @@
                 Condizioni d'utilizzo
               </router-link>
             </p>
-            <p>
+            <p class="my-3">
               <router-link to="/contatti" tag="a" class="text-dark">
                 Contatti
               </router-link>
@@ -86,6 +86,10 @@ a:visited {
 
 #footer-content {
   text-align: left !important;
+}
+
+#footer-copyright {
+  margin-top: 3vh;
 }
 
 @media only screen and (max-width: 700px) {

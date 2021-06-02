@@ -1,6 +1,54 @@
 <template>
-  <b-container>
-    <h1>Contatti qui</h1>
+  <b-container style="height:70vh;">
+    <h1 class="title">
+      Contatti
+    </h1>
+    <hr>
+    <!-- Torchio contact -->
+    <b-row>
+      <b-col id="torchioContact">
+        <h2 class="h4">
+          Al Torchio Antico, <span class="text-primary">Staff</span>
+        </h2>
+        <a
+          href="tel:+41765969984"
+          rel="author"
+          title="Chiama Il Torchio Antico"
+          alt="Chiama Il Torchio Antico"
+          class="contact"
+        >
+          <b-icon-telephone-forward /> +41 76 596 9984
+        </a>
+        <!-- Email -->
+        <a
+          href="mailto:example@email.com"
+          rel="author"
+          title="Scrivi al Torchio Antico"
+          alt="Scrivi al Torchio Antico"
+          class="contact"
+        >
+          <b-icon-mailbox /> example@email.com
+        </a>
+      </b-col>
+    </b-row>
+    <!-- My contact -->
+    <b-row class="mt-5">
+      <b-col>
+        <h2 class="h4">
+          Luca Di Bello - <span class="text-primary">Web Master</span>
+        </h2>
+        <!-- Email -->
+        <a
+          href="mailto:info@lucadibello.ch"
+          rel="author"
+          title="Contatta Luca Di Bello"
+          alt="Contatta Luca Di Bello"
+          class="contact"
+        >
+          <b-icon-mailbox /> info@lucadibello.ch
+        </a>
+      </b-col>
+    </b-row>
   </b-container>
 </template>
 
@@ -27,3 +75,32 @@ export default {
   })
 }
 </script>
+
+<style scoped>
+  .contact {
+    margin-top: .3rem;
+  }
+
+  .container {
+    height: 65vh;
+  }
+
+  /* CSS Responsive query */
+  @media only screen and (max-width: 600px) {
+    h2 {
+      text-align: center;
+    }
+    .contact {
+      display: block;
+      text-align: center;
+    }
+
+    .spacer {
+      height: 40vh;
+    }
+
+    .container {
+      margin-bottom: 4rem;
+    }
+  }
+</style>

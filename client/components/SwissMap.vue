@@ -1,6 +1,6 @@
 <template>
   <client-only>
-    <l-map ref="map" :zoom="20" :center="center">
+    <l-map ref="map" :zoom="20" :center="center" :bounds="bounds">
       <l-tile-layer url="http://{s}.tile.osm.ch/switzerland/{z}/{x}/{y}.png" />
 
       <!-- Insert markers -->
@@ -50,7 +50,7 @@
 
 <script>
 export default {
-  name: 'Map',
+  name: 'SwissMap',
   props: {
     center: {
       type: Array,
@@ -71,6 +71,17 @@ export default {
       }
     }
   },
+  data: () => ({
+    bounds: [
+      [45.943804, 8.880060],
+      [45.829596, 9.071089]
+    ],
+    // UNUSED
+    maxBounds: [
+      [46.046045, 6.4281305],
+      [53.7931826, 26.4662971]
+    ]
+  }),
   computed: {
     dynamicSize () {
       return [this.iconSize, this.iconSize * 1.15]

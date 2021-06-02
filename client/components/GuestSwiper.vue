@@ -4,7 +4,6 @@
     <guest-swiper-slide :src="require('assets/img/carousel/jpeg/foto2.jpg')" alt="Ristorante interno" />
     <guest-swiper-slide :src="require('assets/img/carousel/jpeg/foto3.jpg')" alt="Cortile esterno" />
     <guest-swiper-slide :src="require('assets/img/carousel/jpeg/foto4.jpg')" alt="Tavolo con piatto" />
-    <guest-swiper-slide :src="require('assets/img/carousel/jpeg/foto5.jpg')" alt="Tavolo apparecchiato" />
     <div slot="pagination" class="swiper-pagination" />
   </swiper>
 </template>

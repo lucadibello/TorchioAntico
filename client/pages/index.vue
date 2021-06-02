@@ -1,7 +1,7 @@
 <template>
   <!-- Main container -->
-  <main>
-    <section class="vh-100">
+  <section>
+    <section>
       <!-- Guest carousel container -->
       <b-container fluid>
         <!-- Guest carousel -->
@@ -16,7 +16,7 @@
           <h1 id="page-title" class="display-4 title">
             Al Torchio Antico
           </h1>
-          <b-row class="d-flex justify-content-center">
+          <b-row id="intro-block" class="d-flex justify-content-center">
             <p id="into-phrase">
               Situato nel centro storico di <span :class="hoverHightlight ? 'hightlightOver' : 'hightlighted'" @mouseover="hoverHightlight = true" @mouseleave="hoverHightlight = false">Arzo</span>, il Ristorante Al Torchio Antico sorge in un
               <span :class="hoverHightlight ? 'hightlightOver' : 'hightlighted'" @mouseover="hoverHightlight = true" @mouseleave="hoverHightlight = false">
@@ -24,21 +24,6 @@
               </span>
               e offre piatti della <span :class="hoverHightlight ? 'hightlightOver' : 'hightlighted'" @mouseover="hoverHightlight = true" @mouseleave="hoverHightlight = false">cucina nostrana</span> e <span :class="hoverHightlight ? 'hightlightOver' : 'hightlighted'" @mouseover="hoverHightlight = true" @mouseleave="hoverHightlight = false">vini pregiati</span> per avvalorare al meglio le risorse locali
             </p>
-          </b-row>
-          <b-row class="d-flex justify-content-center">
-            <div
-              id="read-more"
-              class="text-center shadow-md p-4 mb-5 rounded-circle"
-              :class="hoverReadMore ? 'read-more-hover' : 'read-more'"
-              @mouseover="hoverReadMore = true"
-              @mouseleave="hoverReadMore = false"
-              @click="scrollToElement($refs.findUs)"
-            >
-              <p class="mt-2">
-                Continua a leggere..
-              </p>
-              <b-icon-arrow-down-circle-fill />
-            </div>
           </b-row>
         </div>
       </b-container>
@@ -60,15 +45,21 @@
           <b-icon-bullseye /> Piazzetta Guido Bustelli 1, 6864 Arzo
         </a>
       </h6>
-      <b-row>
+      <b-row id="dove-trovarci-block">
         <b-col class="p-4">
           <!-- Counters -->
           <h4 class="d-inline">
             Da Mendrisio <small class="text-muted">7 km</small> <b-img alt="Swiss flag" class="inline-flag" :src="flags.switzerland" />
           </h4>
           <!-- Progress Bar -->
-          <b-progress :max="10" show-value height="2rem" class="mt-2 mb-3" animated>
-            <b-progress-bar :value="9" variant="success">
+          <b-progress
+            :max="10"
+            show-value
+            height="2rem"
+            class="mt-2 mb-3"
+            animated
+          >
+            <b-progress-bar :value="9" variant="success" aria-label="Tempo da mendrisio in auto">
               <span><strong>10 - 15 minuti</strong></span>
             </b-progress-bar>
           </b-progress>
@@ -78,8 +69,14 @@
             Da dogana di Arzo <small class="text-muted">750 metri</small> <b-img alt="Italian flag" class="inline-flag" :src="flags.italy" />
           </h4>
           <!-- Progress Bar -->
-          <b-progress :max="8" show-value height="2rem" class="mt-2" animated>
-            <b-progress-bar :value="3.5" variant="success">
+          <b-progress
+            :max="8"
+            show-value
+            height="2rem"
+            class="mt-2"
+            animated
+          >
+            <b-progress-bar :value="3.5" variant="success" aria-label="Tempo dal confine di Arzo in auto">
               <span><strong>3 - 5 minuti</strong></span>
             </b-progress-bar>
           </b-progress>
@@ -106,7 +103,7 @@
               rel="author"
               title="Scrivi al Torchio Antico"
               alt="Scrivi al Torchio Antico"
-              class="d-block"
+              class="d-block my-3"
             >
               <b-icon-mailbox /> example@email.com
             </a>
@@ -118,6 +115,7 @@
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3444.605828361013!2d8.945066260620326!3d45.87523820321747!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47842a1fd7bc1c01%3A0x62a2fda1ea865110!2sRistorante%20Al%20Torchio%20Antico!5e0!3m2!1sen!2sch!4v1604240957773!5m2!1sen!2sch"
               width="auto"
+              title="Al Torchio Antico mostrato tramite Google Maps"
               height="450"
               frameborder="0"
               style="border:0;width:100% !important"
@@ -129,7 +127,14 @@
         </b-col>
       </b-row>
     </b-container>
-    <!-- Story -->
+
+    <b-container class="mt-5" fluid>
+      <client-only>
+        <restourant-status :hours="hours" />
+      </client-only>
+    </b-container>
+
+    <!-- Services -->
     <b-container id="services" class="mt-5" fluid>
       <h2 class="display-5 title">
         Servizi
@@ -142,64 +147,93 @@
             <li>Cortile esterno con giochi per bambini <b-icon-person-check-fill variant="success" /></li>
             <li>Connessione Wi-Fi gratis <b-icon-wifi variant="success" /></li>
             <li>Accessibile con sedia a rotelle <b-icon-life-preserver variant="success" /></li>
+            <li>Animali ammessi <b-icon-bug variant="success" /></li>
+            <li>POS per carte di credito <b-icon-credit-card2-back variant="success" /></li>
           </ul>
-
-          <b-jumbotron class="mt-5">
-            <template #header>
-              Operatori telefonici
-            </template>
-
-            <template #lead>
-              Lista degli operatori telefonici accessibili nell'area <sup><small class="muted" style="color:grey;">1)</small></sup>
-            </template>
-
-            <hr class="my-4">
-
-            <b-row>
-              <b-col>
-                <!-- Swiss Operators -->
-                <p class="text-center text-dark font-weight-bold">
-                  Operatori Svizzeri <b-badge>3</b-badge>
-                </p>
-                <b-list-group v-for="operator in operators.switzerland" :key="operator" vertical>
-                  <b-list-group-item class="d-flex justify-content-between align-items-center">
-                    {{ operator }}
-                  </b-list-group-item>
-                </b-list-group>
-              </b-col>
-              <b-col>
-                <!-- Italian Operators -->
-                <p class="text-center text-dark font-weight-bold">
-                  Operatori Italiani <b-badge>4</b-badge>
-                </p>
-                <b-list-group v-for="operator in operators.italy" :key="operator" vertical>
-                  <b-list-group-item class="d-flex justify-content-between align-items-center">
-                    {{ operator }}
-                  </b-list-group-item>
-                </b-list-group>
-              </b-col>
-            </b-row>
-
-            <b-button
-              variant="outline-primary"
-              href="https://www.gsma.com/coverage/"
-              target="_blank"
-              rel="noopener"
-              rounded
-            >
-              Controlla copertura online
-            </b-button>
-
-            <div class="w-100 text-right m-0">
-              <p style="color:grey;font-size:.7em">
-                <small class="muted">1)</small> aggiornato al 22.05.2021
-              </p>
-            </div>
-          </b-jumbotron>
         </b-col>
       </b-row>
     </b-container>
 
+    <!-- Photo gallery -->
+    <b-container id="gallery" class="mt-5" fluid>
+      <h2 class="display-5 title">
+        Galleria
+      </h2>
+      <!-- Show only a row -->
+      <p>Clicca su una foto per ingrandirla</p>
+
+      <!-- Show gallery -->
+      <gallery :images="galleryImages" @update:gallery="index = $event" />
+      <client-only>
+        <!-- Show lightbox if clicked -->
+        <vgs :images="galleryImages" :index="index" @close="index = null" />
+      </client-only>
+
+      <!-- View all images button -->
+      <div class="w-100 text-center mt-5">
+        <nuxt-link to="/galleria" class="mr-2">
+          <b-button variant="outline-warning" class="text-dark" pill>
+            Guarda tutte le foto
+          </b-button>
+        </nuxt-link>
+      </div>
+    </b-container>
+
+    <!-- Phone operators -->
+    <b-container id="phoneOperators" class="mt-5" fluid>
+      <b-jumbotron id="phoneOperators" class="mt-5">
+        <template #header>
+          Operatori telefonici
+        </template>
+
+        <template #lead>
+          Lista degli operatori telefonici accessibili nell'area <sup><small class="muted" style="color:grey;">1)</small></sup>
+        </template>
+
+        <hr class="my-4">
+
+        <b-row>
+          <b-col>
+            <!-- Swiss Operators -->
+            <p class="text-center text-dark font-weight-bold">
+              Operatori Svizzeri <b-badge>3</b-badge>
+            </p>
+            <b-list-group vertical>
+              <b-list-group-item v-for="operator in operators.switzerland" :key="operator" class="d-flex justify-content-between align-items-center">
+                {{ operator }}
+              </b-list-group-item>
+            </b-list-group>
+          </b-col>
+          <b-col>
+            <!-- Italian Operators -->
+            <p class="text-center text-dark font-weight-bold">
+              Operatori Italiani <b-badge>4</b-badge>
+            </p>
+            <b-list-group v-for="operator in operators.italy" :key="operator" vertical>
+              <b-list-group-item class="d-flex justify-content-between align-items-center">
+                {{ operator }}
+              </b-list-group-item>
+            </b-list-group>
+          </b-col>
+        </b-row>
+
+        <b-button
+          variant="outline-primary"
+          href="https://www.gsma.com/coverage/"
+          target="_blank"
+          rel="noopener"
+          rounded
+        >
+          Controlla copertura online
+        </b-button>
+
+        <div id="dataAlert" class="w-100 text-right m-0">
+          <p style="color:grey;font-size:.7em">
+            <small class="muted">1)</small> dati risalenti al 22.05.2021
+          </p>
+        </div>
+      </b-jumbotron>
+    </b-container>
     <!-- POI Map -->
     <b-container id="story" class="mt-5" fluid>
       <h2 class="display-4 title">
@@ -228,7 +262,7 @@
 
         <!-- Collapsible section -->
         <b-collapse v-model="isLegendOpen">
-          <div class="text-center mb-5">
+          <div class="text-center mb-5 mt-3">
             <p class="lead">
               <b-icon-circle-fill variant="primary" /> <b>Al Torchio Antico</b>
             </p>
@@ -236,7 +270,7 @@
           <!-- List of POIs -->
 
           <!-- First row -->
-          <b-row align-h="center">
+          <b-row id="legendData" align-h="center">
             <b-col>
               <p class="lead">
                 <span class="marker-legend bg-success text-white">1</span> Grotta dell'orso
@@ -303,7 +337,7 @@
         </b-collapse>
       </div>
     </b-container>
-  </main>
+  </section>
 </template>
 
 <script>
@@ -319,6 +353,13 @@ export default {
         italy: require('assets/img/flags/italy-flag-round-250.png'),
         switzerland: require('assets/img/flags/swiss-flag-round-250.png')
       },
+      index: null,
+      galleryImages: [
+        { url: require('assets/img/gallery/foto1.jpg'), alt: 'Entrata ristorante' },
+        { url: require('assets/img/gallery/foto2.jpg'), alt: 'Ristorante all\' interno' },
+        { url: require('assets/img/gallery/foto3.jpg'), alt: 'Cortile esterno' },
+        { url: require('assets/img/gallery/foto4.jpg'), alt: 'Tavolo apparecchiato' }
+      ],
       timing: {
         isItaly: false
       },
@@ -382,6 +423,45 @@ export default {
           cords: [45.91387, 8.94977],
           text: 'Dalla sommità del San Giorgio, situata a quota 1000 metri nel sud del Ticino, si gode un panorama che spazia tra lago e montagne, regalando scorci indimenticabili sulla regione',
           iconUrl: 'marker-icon-2x-grey.png'
+        }
+      ],
+      hours: [
+        {
+          // SUNDAY
+          isOpen: true,
+          open: '09:00',
+          closes: '23:00'
+        },
+        {
+          // MONDAY
+          isOpen: false,
+          open: null,
+          closes: null
+        },
+        { // TUESDAY
+          isOpen: true,
+          open: '17:00',
+          closes: '23:00'
+        },
+        { // WEDNESDAY
+          isOpen: true,
+          open: '17:00',
+          closes: '23:00'
+        },
+        { // THURSDAY
+          isOpen: true,
+          open: '17:00',
+          closes: '23:00'
+        },
+        { // FRIDAY
+          isOpen: true,
+          open: '09:00',
+          closes: '23:00'
+        },
+        { // SATURDAY
+          isOpen: true,
+          open: '09:00',
+          closes: '23:00'
         }
       ]
     }
@@ -529,6 +609,13 @@ export default {
   content: '\2022';
   margin-right: 0.5em;
 }
+#status .row {
+  justify-content: center;
+}
+
+#status svg {
+  font-size: 3em;
+}
 
 /* CSS Responsive query */
 @media only screen and (max-width: 600px) {
@@ -558,6 +645,44 @@ export default {
 
   #contacts-section > div {
     margin-bottom: 2rem;
+  }
+
+  #intro-block {
+    display:block !important;
+    padding: 20px;
+  }
+
+  #into-phrase {
+    max-width: 100% !important;
+  }
+
+  #dove-trovarci-block {
+    display: block !important;
+  }
+
+  #map-container {
+    padding: 20px;
+  }
+
+  #phoneOperators {
+    display: block !important;
+  }
+
+  #phoneOperators .display-3 {
+    font-size: 2.5rem;
+  }
+
+  #phoneOperators .row .col {
+    margin-bottom: 2vh;
+  }
+
+  #dataAlert {
+    margin-top: 2vh !important;
+    text-align: left !important;
+  }
+
+  #legendData {
+    display: block;
   }
 }
 </style>
