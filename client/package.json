@@ -1,41 +1,42 @@
 {
-  "name": "torchio-antico",
+  "name": "TorchioAntico-PWA",
   "version": "1.0.0",
+  "description": "Sito ufficiale del hotel-ristorante Al Torchio Antico di Arzo",
   "private": true,
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
-    "lint:js": "eslint --ext .js,.vue --ignore-path .gitignore .",
+    "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
     "lint": "npm run lint:js"
   },
   "dependencies": {
     "@nuxtjs/auth": "^4.9.1",
-    "@nuxtjs/axios": "^5.13.4",
+    "@nuxtjs/axios": "^5.13.1",
     "@nuxtjs/moment": "^1.6.1",
-    "@nuxtjs/pwa": "^3.0.2",
-    "bootstrap": "^4.5.2",
-    "bootstrap-vue": "^2.16.0",
+    "@nuxtjs/pwa": "^3.3.5",
+    "bootstrap": "^4.6.0",
+    "bootstrap-vue": "^2.21.2",
     "chart.js": "^2.9.4",
-    "core-js": "^3.6.5",
-    "nuxt": "^2.14.5",
-    "nuxt-leaflet": "0.0.22",
-    "nuxt-vuex-localstorage": "^1.2.7",
+    "core-js": "^3.9.1",
+    "nuxt": "^2.15.3",
+    "nuxt-leaflet": "^0.0.25",
     "swiper": "^6.6.2",
     "vue-awesome-swiper": "^4.1.1",
+    "vue-carousel-3d": "^1.0.1",
     "vue-chartjs": "^3.5.1",
     "vue-cookie-law": "^1.13.3",
-    "vue-country-region-select": "^2.0.14",
     "vue-gallery-slideshow": "^1.5.2",
-    "vue-sweetalert2": "^3.0.8",
-    "vue-tel-input": "^4.4.0"
+    "vue-sweetalert2": "^4.3.1",
+    "vue-tel-input": "^5.3.0"
   },
   "devDependencies": {
-    "@nuxtjs/eslint-config": "^3.1.0",
-    "@nuxtjs/eslint-module": "^2.0.0",
+    "@nuxtjs/eslint-config": "^6.0.0",
+    "@nuxtjs/eslint-module": "^3.0.2",
     "babel-eslint": "^10.1.0",
-    "eslint": "^7.8.1",
-    "eslint-plugin-nuxt": "^1.0.0"
+    "eslint": "^7.22.0",
+    "eslint-plugin-nuxt": "^2.0.0",
+    "eslint-plugin-vue": "^7.7.0"
   }
 }

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { Line } from 'vue-chartjs'
 
-Vue.component('line-chart', {
+Vue.component('LineChart', {
   extends: Line,
   props: {
     labels: {

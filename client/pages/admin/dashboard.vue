@@ -37,10 +37,12 @@
 
     <!-- Chart box -->
     <div class="w-100 mt-5">
-      <h2>Prenotazioni mensili</h2>
+      <h2>Statistica prenotazioni globali</h2>
       <!-- Load animation -->
       <b-overlay :show="!charts.bookings.loaded" :opacity=".95" spinner-type="grow" spinner-variant="success">
-        <line-chart v-if="charts.bookings.loaded" :data="Object.values(charts.bookings.data)" :labels="charts.bookings.labels" :data-label="charts.bookings.dataLabel" />
+        <client-only>
+          <line-chart v-if="charts.bookings.loaded" :data="Object.values(charts.bookings.data)" :labels="charts.bookings.labels" :data-label="charts.bookings.dataLabel" />
+        </client-only>
       </b-overlay>
     </div>
   </article>

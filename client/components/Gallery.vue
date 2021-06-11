@@ -1,6 +1,6 @@
 <template>
   <div class="gallery">
-    <div v-for="(image, i) in images" :key="i" class="image-container">
+    <div v-for="(image, i) in images" :key="i" class="image-container p-1">
       <b-img
         class="image img-fluid shadow-lg bg-body rounded"
         :src="image.url"
@@ -29,7 +29,7 @@ export default {
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     grid-auto-rows: auto;
     text-align: center;
-    overflow: hidden;
+    overflow: scroll;
   }
   .gallery img {
     cursor: pointer;

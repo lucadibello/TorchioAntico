@@ -5,8 +5,13 @@
       <!-- Guest carousel container -->
       <b-container fluid>
         <!-- Guest carousel -->
+        <!--
         <client-only>
-          <guest-swiper class="mt-2" />
+          <guest-swiper id="homepage-swiper" class="mt-2" />
+        </client-only>
+        -->
+        <client-only>
+          <guest-carousel class="mt-2" />
         </client-only>
       </b-container>
 
@@ -128,7 +133,7 @@
       </b-row>
     </b-container>
 
-    <b-container class="mt-5" fluid>
+    <b-container id="status-container" class="mt-5 text-center shadow-lg p-0" fluid>
       <client-only>
         <restourant-status :hours="hours" />
       </client-only>
@@ -166,7 +171,7 @@
       <gallery :images="galleryImages" @update:gallery="index = $event" />
       <client-only>
         <!-- Show lightbox if clicked -->
-        <vgs :images="galleryImages" :index="index" @close="index = null" />
+        <VGS :images="galleryImages" :index="index" @close="index = null" />
       </client-only>
 
       <!-- View all images button -->
@@ -466,16 +471,6 @@ export default {
       ]
     }
   },
-  methods: {
-    centerPoi (poi) {
-      this.$refs.poiMap.flyTo(poi.cords)
-    },
-    scrollToElement (el) {
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth' })
-      }
-    }
-  },
   head: () => ({
     title: 'Homepage',
     meta: [{
@@ -492,7 +487,17 @@ export default {
       name: 'og:title',
       content: 'Homepage'
     }]
-  })
+  }),
+  methods: {
+    centerPoi (poi) {
+      this.$refs.poiMap.flyTo(poi.cords)
+    },
+    scrollToElement (el) {
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' })
+      }
+    }
+  }
 }
 </script>
 
@@ -617,6 +622,15 @@ export default {
   font-size: 3em;
 }
 
+#status-container {
+  width: 70%;
+}
+
+.vgs {
+  display: flex !important;
+  justify-content: center;
+  flex-direction: column;
+}
 /* CSS Responsive query */
 @media only screen and (max-width: 600px) {
 
@@ -683,6 +697,11 @@ export default {
 
   #legendData {
     display: block;
+  }
+
+  #status-container {
+    width: 100%;
+    padding: 20px !important;
   }
 }
 </style>

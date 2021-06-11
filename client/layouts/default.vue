@@ -5,8 +5,10 @@
       <guest-nav />
     </header>
     <main>
-      <!-- Load page here -->
-      <Nuxt class="spacer" />
+      <transition name="fade" mode="in-out">
+        <!-- Load page here -->
+        <Nuxt class="spacer" />
+      </transition>
     </main>
 
     <!-- Footer -->
@@ -17,8 +19,8 @@
       <footer>
         <cookie-law
           theme="dark-lime"
-          message="Questo sito web utilizza i cookie per garantire la migliore esperienza sul nostro sito web."
-          button-text="Ho capito"
+          message="Questa pagina utilizza i cookie per garantire la migliore esperienza sul nostro sito web."
+          button-text="Accetta"
         />
       </footer>
     </client-only>
@@ -38,6 +40,7 @@ body {
   font-kerning: normal;
   font-feature-settings: "ss01" off;
   font-family: 'system-ui', sans-serif;
+  overflow-x: hidden !important;
 }
 
 .title {

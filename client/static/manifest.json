@@ -2,8 +2,9 @@
  "name": "Ristorante Al Torchio Antico",
  "short_name": "Al Torchio Antico",
  "start_url": "/",
+ "description": "Sito ufficiale del hotel-ristorante Al Torchio Antico di Arzo",
  "theme_color": "#ff9800",
- "background_color": "#000",
+ "background_color": "#fff",
  "display": "standalone",
  "orientation": "portrait",
  "icons": [
@@ -42,6 +43,12 @@
    "sizes": "192x192",
    "type": "image/png",
    "density": "4.0"
+  },
+  {
+    "src": "/favicons/maskable.png",
+    "sizes": "562x562",
+    "type": "image/png",
+    "purpose": "any maskable"
   }
  ]
 }

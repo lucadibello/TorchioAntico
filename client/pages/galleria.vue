@@ -14,7 +14,7 @@
       <gallery :images="images" @update:gallery="index = $event" />
       <client-only>
         <!-- Show lightbox if clicked -->
-        <vgs :images="images" :index="index" @close="index = null" />
+        <VGS :images="images" :index="index" @close="index = null" />
       </client-only>
     </b-container>
   </section>
@@ -26,16 +26,16 @@ export default {
   layout: 'default',
   data: () => ({
     images: [
-      require('assets/img/gallery/foto1.jpg'),
-      require('assets/img/gallery/foto2.jpg'),
-      require('assets/img/gallery/foto3.jpg'),
-      require('assets/img/gallery/foto4.jpg'),
-      require('assets/img/gallery/foto5.jpg'),
-      require('assets/img/gallery/foto6.jpeg'),
-      require('assets/img/gallery/foto7.jpeg'),
-      require('assets/img/gallery/foto8.jpeg'),
-      require('assets/img/gallery/foto9.jpeg'),
-      require('assets/img/gallery/foto10.jpg')
+      { url: require('assets/img/gallery/foto1.jpg'), alt: 'Entrata ristorante' },
+      { url: require('assets/img/gallery/foto2.jpg'), alt: 'Ristorante all\' interno' },
+      { url: require('assets/img/gallery/foto3.jpg'), alt: 'Cortile esterno' },
+      { url: require('assets/img/gallery/foto4.jpg'), alt: 'Tavolo apparecchiato' },
+      { url: require('assets/img/gallery/foto5.jpg'), alt: 'Tavoli interni' },
+      { url: require('assets/img/gallery/foto6.jpeg'), alt: 'Tavoli esterni (bar)' },
+      { url: require('assets/img/gallery/foto7.jpeg'), alt: 'Cortile esterno' },
+      { url: require('assets/img/gallery/foto8.jpeg'), alt: 'Divanetti cortile esterno - 1' },
+      { url: require('assets/img/gallery/foto9.jpeg'), alt: 'Divanetti cortile esterno - 2' },
+      { url: require('assets/img/gallery/foto10.jpg'), alt: 'Tavolo interno apparecchiato' }
     ],
     index: null
   }),
@@ -58,3 +58,11 @@ export default {
   })
 }
 </script>
+
+<style scoped>
+  .vgs {
+    display: flex !important;
+    justify-content: center;
+    flex-direction: column;
+  }
+</style>

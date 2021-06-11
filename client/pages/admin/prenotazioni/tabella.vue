@@ -16,26 +16,26 @@
       :responsive="true"
     >
       <!-- Empty template -->
-      <template v-slot:empty>
+      <template #empty>
         <h6 class="text-danger">
           Non ci sono prenotazioni disponibili
         </h6>
       </template>
 
       <!-- Flag template -->
-      <template v-slot:cell(flag)="{ item }">
+      <template #cell(flag)="{ item }">
         <b-img-lazy :fluid="true" :src="`https://www.countryflags.io/${item.client_address_country}/flat/32.png`" />
       </template>
 
       <!-- Actions template -->
-      <template v-slot:cell(actions)="{ item }">
+      <template #cell(actions)="{ item }">
         <b-btn variant="primary" @click="toggleActions(item)">
-          Mostra azioni
+          Apri
         </b-btn>
       </template>
 
       <!-- Show more template -->
-      <template v-slot:row-details="{ item }">
+      <template #row-details="{ item }">
         <b-card class="text-left">
           <!-- Client information -->
           <h6 class="font-weight-bold">
@@ -67,6 +67,7 @@
             <b-list-group-item>Data di inizio: {{ $moment(item.booking_start_date).format('DD.MM.YYYY') }}</b-list-group-item>
             <b-list-group-item>Data di fine: {{ $moment(item.booking_end_date).format('DD.MM.YYYY') }}</b-list-group-item>
             <b-list-group-item>Stanza: {{ item._roomInfo.name }}</b-list-group-item>
+            <b-list-group-item>Persone: <span class="text-danger">DA FARE</span></b-list-group-item>
           </b-list-group>
 
           <!-- Extra information -->
@@ -75,11 +76,10 @@
           </h6>
           <b-list-group vertical="md">
             <b-list-group-item>Data creazione prenotazione: {{ $moment(item.createdAt).format('DD.MM.YYYY HH:mm') }}</b-list-group-item>
-            <b-list-group-item>Data ultima modifica: {{ $moment(item.updatedAt).format('DD.MM.YYYY HH:mm') }}</b-list-group-item>
           </b-list-group>
 
           <!-- Card footer block -->
-          <template v-slot:footer>
+          <template #footer>
             <!-- Text -->
             <small class="text-muted mr-4">Azioni sulla prenotazione</small>
 
@@ -104,6 +104,7 @@
 <script>
 export default {
   name: 'BookingTableView',
+  layout: 'admin',
   data () {
     return {
       bookings: [],
@@ -215,7 +216,6 @@ export default {
         }
       })
     }
-  },
-  layout: 'admin'
+  }
 }
 </script>

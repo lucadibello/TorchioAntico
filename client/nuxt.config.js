@@ -6,7 +6,7 @@ export default {
     baseUrl: BASE_URL
   },
 
-  // Global page headers (https://go.nuxtjs.dev/config-head)
+  // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'Homepage',
     titleTemplate: 'Al Torchio Antico | %s',
@@ -34,7 +34,7 @@ export default {
       { rel: 'icon', sizes: '96x96', href: '/favicons/android-icon-96x96.png' },
       { rel: 'icon', sizes: '36x36', href: '/favicons/android-icon-72x72.png' },
       { rel: 'icon', sizes: '48x48', href: '/favicons/android-icon-48x48.png' },
-      { rel: 'icon', sizes: '36x36', href: '/favicons/android-icon-32x32.png' },
+      { rel: 'icon', sizes: '36x36', href: '/favicons/android-icon-36x36.png' },
       { rel: 'manifest', href: '/manifest.json' },
       { rel: 'msapplication-config', href: '/browserconfig.xml' },
       // Add fonts from fonts.google.com
@@ -43,31 +43,32 @@ export default {
     ]
   },
 
-  // Global CSS (https://go.nuxtjs.dev/config-css)
+  // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    'swiper/swiper-bundle.min.css'
+    'swiper/swiper-bundle.min.css',
+    'vue-tel-input/dist/vue-tel-input.css'
   ],
 
-  // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
+  // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     { src: '~/plugins/axios' },
-    { src: '~/plugins/phone', mode: 'client' },
+    { src: '~/plugins/carousel-3d', mode: 'client' },
     { src: '~/plugins/line-chart', mode: 'client' },
-    { src: '~/plugins/vue-awesome-swiper', mode: 'client' },
+    { src: '~/plugins/vue-tel-input', mode: 'client' },
     { src: '~/plugins/vue-gallery-slideshow', mode: 'client' },
     { src: '~/plugins/vue-cookie-law', mode: 'client' }
   ],
 
-  // Auto import components (https://go.nuxtjs.dev/config-components)
+  // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
 
-  // Modules for dev and build (recommended) (https://go.nuxtjs.dev/config-modules)
+  // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     // https://go.nuxtjs.dev/eslint
     '@nuxtjs/eslint-module'
   ],
 
-  // Modules (https://go.nuxtjs.dev/config-modules)
+  // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/bootstrap
     'bootstrap-vue/nuxt',
@@ -84,6 +85,29 @@ export default {
     // Nuxt Leaflet.js
     'nuxt-leaflet'
   ],
+
+  // Axios module configuration: https://go.nuxtjs.dev/config-axios
+  axios: {
+    baseURL: BASE_URL + '/api'
+  },
+
+  // Pwa manifest options: https://pwa.nuxtjs.org/manifest/
+  pwa: {
+    manifest: {
+      name: 'Ristorante Al Torchio Antico',
+      short_name: 'Al Torchio Antico',
+      lang: 'it',
+      theme_color: '#ff9800',
+      background_color: '#000000',
+      display: 'standalone',
+      useWebmanifestExtension: false
+    }
+  },
+
+  // Router settings (active link)
+  router: {
+    linkExactActiveClass: 'text-primary'
+  },
 
   // Enable Vuex store
   store: true,
@@ -117,18 +141,7 @@ export default {
     }
   },
 
-  // Loading bar
-  loading: {
-    color: 'green',
-    height: '5px'
-  },
-
-  // Axios module configuration (https://go.nuxtjs.dev/config-axios)
-  axios: {
-    baseURL: BASE_URL + '/api'
-  },
-
-  // Build Configuration (https://go.nuxtjs.dev/config-build)
+  // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
   }
 }

@@ -1,296 +1,255 @@
 <template>
-  <article>
+  <section>
     <h1>Prenotazioni</h1>
     <hr>
-    <b-jumbotron header="Gestione stanze" lead="Gestisci semplicemente le stanze disponibili per le prenotazioni">
+
+    <b-jumbotron header="Stanze" lead="Gestisci semplicemente le stanze disponibili per le prenotazioni">
       <nuxt-link to="/admin/prenotazioni/stanze">
         <b-button variant="success">
           <b-icon-arrow-return-right /> Gestisci stanze
         </b-button>
       </nuxt-link>
     </b-jumbotron>
-    <!-- Tabs -->
-    <b-tabs content-class="mt-3 mb-5">
-      <!-- View tab -->
-      <b-tab title="Visualizzazione" active>
-        <h2>Visualizzazioni disponbili</h2>
-        <b-card-group deck>
-          <b-card
-            class="action-thumbnail"
-            :img-src="require('~/assets/img/isometric-clipboard.svg')"
-            img-alt="Visualizza prenotazioni"
-            img-top
-          >
-            <b-card-text>
-              Visualizza tutte le prenotazioni effettuate nel sistema. Esse possono essere ordinate, filtrate e suddivise su più
-              pagine per permetterne una facile visualizzazione
-            </b-card-text>
-            <nuxt-link to="/admin/prenotazioni/tabella">
-              <b-button variant="primary">
-                Visualizza prenotazioni in formato tabellare
-              </b-button>
-            </nuxt-link>
-          </b-card>
 
-          <b-card
-            class="action-thumbnail"
-            :img-src="require('~/assets/img/isometric-calendar.svg')"
-            img-alt="Modifica prenotazioni"
-            img-top
-          >
-            <b-card-text>
-              Visualizza tutte le prenotazioni in un calendario che permette al gestore di vedere i dati all'interno di una linea temporale specifica. Non adatto per statistiche.
-            </b-card-text>
-            <nuxt-link to="/admin/prenotazioni/calendario">
-              <b-button variant="primary">
-                Visualizza prenotazioni in un calendario
-              </b-button>
-            </nuxt-link>
-          </b-card>
-        </b-card-group>
-      </b-tab>
-      <!-- Create booking -->
-      <b-tab title="Prenota">
-        <!-- First step: Fill user information -->
-        <div id="client-step" :v-show="false">
-          <b-form @submit.prevent="registerBooking">
-            <h4>
-              <b-badge pill variant="primary">
-                <b-icon-person-lines-fill />
-              </b-badge> Informazioni cliente
-            </h4>
-            <!-- Client information -->
-            <section>
-              <!-- Name & Surname -->
-              <h4 class="text-center mb-3">
-                Dati anagrafici
-              </h4>
+    <b-jumbotron header="Prenotazioni" lead="Visualizza le prenotazioni salvate nel sistema">
+      <nuxt-link to="/admin/prenotazioni/tabella">
+        <b-button variant="success">
+          <b-icon-arrow-return-right /> Gestisci prenotazioni
+        </b-button>
+      </nuxt-link>
+    </b-jumbotron>
 
-              <b-row>
-                <b-col>
-                  <!-- Name -->
-                  <b-form-group
-                    id="input-group-1"
-                    label="Nome"
-                    label-for="input-name"
-                  >
-                    <b-form-input
-                      id="input-name"
-                      v-model="form.client.name"
-                      type="text"
-                      :formatter="nameFormatter"
-                      required
-                      placeholder="Es: Pinco"
-                    />
-                  </b-form-group>
-                </b-col>
-                <b-col>
-                  <!-- Surname -->
-                  <b-form-group
-                    id="input-group-2"
-                    label="Cognome"
-                    label-for="input-surname"
-                  >
-                    <b-form-input
-                      id="input-surname"
-                      v-model="form.client.surname"
-                      :formatter="nameFormatter"
-                      type="text"
-                      required
-                      placeholder="Es: Pallino"
-                    />
-                  </b-form-group>
-                </b-col>
-              </b-row>
-              <!-- Email -->
+    <!-- First step: Fill user information -->
+    <div id="client-step" :v-show="false">
+      <b-form @submit.prevent="registerBooking">
+        <h4>
+          <b-badge pill variant="primary">
+            <b-icon-person-lines-fill />
+          </b-badge> Informazioni cliente
+        </h4>
+        <!-- Client information -->
+        <section>
+          <!-- Name & Surname -->
+          <h4 class="text-center mb-3">
+            Dati anagrafici
+          </h4>
+
+          <b-row>
+            <b-col>
+              <!-- Name -->
               <b-form-group
-                id="input-group-3"
-                label="E-Mail"
-                label-for="input-email"
+                id="input-group-1"
+                label="Nome"
+                label-for="input-name"
               >
                 <b-form-input
-                  id="input-email"
-                  v-model="form.client.email"
-                  type="email"
+                  id="input-name"
+                  v-model="form.client.name"
+                  type="text"
+                  :formatter="nameFormatter"
                   required
-                  placeholder="Es: pinco.pallino@esempio.ch"
+                  placeholder="Es: Pinco"
                 />
               </b-form-group>
-
-              <!-- Phone number -->
+            </b-col>
+            <b-col>
+              <!-- Surname -->
               <b-form-group
-                id="input-group-3"
-                label="Numero di telefono"
-                label-for="input-phone"
+                id="input-group-2"
+                label="Cognome"
+                label-for="input-surname"
               >
-                <vue-tel-input v-bind="telProps" @validate="telHandler" />
+                <b-form-input
+                  id="input-surname"
+                  v-model="form.client.surname"
+                  :formatter="nameFormatter"
+                  type="text"
+                  required
+                  placeholder="Es: Pallino"
+                />
               </b-form-group>
+            </b-col>
+          </b-row>
+          <!-- Email -->
+          <b-form-group
+            id="input-group-3"
+            label="E-Mail"
+            label-for="input-email"
+          >
+            <b-form-input
+              id="input-email"
+              v-model="form.client.email"
+              type="email"
+              required
+              placeholder="Es: pinco.pallino@esempio.ch"
+            />
+          </b-form-group>
 
-              <!-- Full Address -->
-              <h4 class="text-center mb-3">
-                Indirizzo domicilio
-              </h4>
-              <!-- Country + City -->
-              <b-row>
-                <b-col>
-                  <!-- Country -->
-                  <b-form-group
-                    id="input-group-7"
-                    label="Nazione"
-                    label-for="input-country"
-                  >
-                    <!-- Select -->
-                    <b-form-select id="input-country" v-model="form.client.address.country" :options="countries" required />
-                  </b-form-group>
-                </b-col>
-                <b-col>
-                  <!-- City -->
-                  <b-form-group
-                    id="input-group-10"
-                    label="Città"
-                    label-for="input-city"
-                  >
-                    <b-form-input id="input-city" v-model="form.client.address.city" type="text" placeholder="Es: Arzo" required />
-                  </b-form-group>
-                </b-col>
-              </b-row>
-              <!-- Address + Home number -->
-              <b-row>
-                <b-col>
-                  <!-- Address -->
-                  <b-form-group
-                    id="input-group-5"
-                    label="Via"
-                    label-for="input-address"
-                  >
-                    <b-form-input
-                      id="input-address"
-                      v-model="form.client.address.street"
-                      type="text"
-                      required
-                      placeholder="Es: Cave di Marmo"
-                    />
-                  </b-form-group>
-                </b-col>
-                <b-col>
-                  <b-form-group
-                    id="input-group-6"
-                    label="Numero casa"
-                    label-for="input-home-number"
-                  >
-                    <b-form-input
-                      id="input-home-number"
-                      v-model="form.client.address.houseNumber"
-                      type="text"
-                      required
-                      placeholder="Es: 4"
-                    />
-                  </b-form-group>
-                </b-col>
-              </b-row>
-            </section>
+          <!-- Phone number -->
+          <b-form-group
+            id="input-group-3"
+            label="Numero di telefono"
+            label-for="input-phone"
+          >
+            <client-only>
+              <vue-tel-input v-bind="telProps" @validate="telHandler" />
+            </client-only>
+          </b-form-group>
 
-            <h4>
-              <b-badge pill variant="primary">
-                <b-icon-calendar2-week />
-              </b-badge> Prenotazione
-            </h4>
-            <!-- Booking information -->
-            <section>
-              <b-row>
-                <b-col>
-                  <!-- Start date -->
-                  <b-form-datepicker
-                    id="datepicker-start"
-                    v-model="form.booking.start_date"
-                    class="mb-2"
-                    :min="today"
-                    required
-                    @input="genEndDate"
-                  />
-                </b-col>
-                <b-col>
-                  <!-- End date -->
-                  <b-form-datepicker
-                    id="datepicker-end"
-                    v-model="form.booking.end_date"
-                    :min="today"
-                    class="mb-2"
-                    required
-                    :disabled="!isStartDateValid()"
-                    @input="loadAvailableRooms"
-                  />
-                </b-col>
-              </b-row>
+          <!-- Full Address -->
+          <h4 class="text-center mb-3">
+            Indirizzo domicilio
+          </h4>
+          <!-- Country + City -->
+          <b-row>
+            <b-col>
+              <!-- Country -->
+              <b-form-group
+                id="input-group-7"
+                label="Nazione"
+                label-for="input-country"
+              >
+                <!-- Select -->
+                <b-form-select id="input-country" v-model="form.client.address.country" :options="countries" required />
+              </b-form-group>
+            </b-col>
+            <b-col>
+              <!-- City -->
+              <b-form-group
+                id="input-group-10"
+                label="Città"
+                label-for="input-city"
+              >
+                <b-form-input id="input-city" v-model="form.client.address.city" type="text" placeholder="Es: Arzo" required />
+              </b-form-group>
+            </b-col>
+          </b-row>
+          <!-- Address + Home number -->
+          <b-row>
+            <b-col>
+              <!-- Address -->
+              <b-form-group
+                id="input-group-5"
+                label="Via"
+                label-for="input-address"
+              >
+                <b-form-input
+                  id="input-address"
+                  v-model="form.client.address.street"
+                  type="text"
+                  required
+                  placeholder="Es: Cave di Marmo"
+                />
+              </b-form-group>
+            </b-col>
+            <b-col>
+              <b-form-group
+                id="input-group-6"
+                label="Numero casa"
+                label-for="input-home-number"
+              >
+                <b-form-input
+                  id="input-home-number"
+                  v-model="form.client.address.houseNumber"
+                  type="text"
+                  required
+                  placeholder="Es: 4"
+                />
+              </b-form-group>
+            </b-col>
+          </b-row>
+        </section>
 
-              <!-- Show message -->
-              <div v-if="isStartDateValid() && isEndDateValid()">
-                Totale notti:  <b-badge pill variant="info">
-                  {{ calculateNights }}
-                </b-badge>
+        <h4>
+          <b-badge pill variant="primary">
+            <b-icon-calendar2-week />
+          </b-badge> Prenotazione
+        </h4>
+        <!-- Booking information -->
+        <section>
+          <b-row>
+            <b-col>
+              <!-- Start date -->
+              <b-form-datepicker
+                id="datepicker-start"
+                v-model="form.booking.start_date"
+                class="mb-2"
+                :min="today"
+                required
+                @input="genEndDate"
+              />
+            </b-col>
+            <b-col>
+              <!-- End date -->
+              <b-form-datepicker
+                id="datepicker-end"
+                v-model="form.booking.end_date"
+                :min="today"
+                class="mb-2"
+                required
+                :disabled="!isStartDateValid()"
+                @input="loadAvailableRooms"
+              />
+            </b-col>
+          </b-row>
 
-                <!-- Select available rooms -->
-                <b-form-group
-                  id="input-group-7"
-                  class="mt-3"
-                  label="Camere disponbili"
-                  label-for="input-rooms"
-                >
-                  <!-- Select -->
-                  <div v-if="availableRooms.length > 0">
-                    <!-- Room selector -->
-                    <b-form-select id="input-rooms" v-model="form.booking.room" :options="availableRooms" required />
-                    <div v-if="form.booking.room != false">
-                      <!-- Room selected -->
-                      <b-badge pill variant="success">
-                        {{ calculateTotalPrice(form.booking.room, calculateNights) }} <b>CHF</b>
-                      </b-badge>
-                    </div>
-                  </div>
-                  <div v-else class="text-center">
-                    <p class="text-danger">
-                      Non ci sono stanze disponibili nell'arco di tempo selezionato
-                    </p>
-                  </div>
-                </b-form-group>
+          <!-- Show message -->
+          <div v-if="isStartDateValid() && isEndDateValid()">
+            Totale notti:  <b-badge pill variant="info">
+              {{ calculateNights }}
+            </b-badge>
+
+            <!-- Select available rooms -->
+            <b-form-group
+              id="input-group-7"
+              class="mt-3"
+              label="Camere disponbili"
+              label-for="input-rooms"
+            >
+              <!-- Select -->
+              <div v-if="availableRooms.length > 0">
+                <!-- Room selector -->
+                <b-form-select id="input-rooms" v-model="form.booking.room" :options="availableRooms" required />
+                <div v-if="form.booking.room != false">
+                  <!-- Room selected -->
+                  <b-badge pill variant="success">
+                    {{ calculateTotalPrice(form.booking.room, calculateNights) }} <b>CHF</b>
+                  </b-badge>
+                </div>
               </div>
-              <div v-else>
+              <div v-else class="text-center">
                 <p class="text-danger">
-                  Le date devono rispettare i seguenti canoni:
+                  Non ci sono stanze disponibili nell'arco di tempo selezionato
                 </p>
-                <ul>
-                  <li>La data di inizio del pernottamento deve corrispondere alla data odierna oppure ad una nel futuro</li>
-                  <li>La data di inizio e di fine pernottamento <u>non possono coincidere</u></li>
-                </ul>
               </div>
-            </section>
-            <!-- Submit button -->
-            <b-form-group class="mt-5">
-              <b-button type="submit" variant="primary">
-                Procedi <b-icon-arrow-right-circle />
-              </b-button>
             </b-form-group>
-          </b-form>
-        </div>
-        <hr>
-      </b-tab>
-    </b-tabs>
-  </article>
+          </div>
+          <div v-else>
+            <p class="text-danger">
+              Le date devono rispettare i seguenti canoni:
+            </p>
+            <ul>
+              <li>La data di inizio del pernottamento deve corrispondere alla data odierna oppure ad una nel futuro</li>
+              <li>La data di inizio e di fine pernottamento <u>non possono coincidere</u></li>
+            </ul>
+          </div>
+        </section>
+        <!-- Submit button -->
+        <b-form-group class="mt-5">
+          <b-button type="submit" variant="primary">
+            Procedi <b-icon-arrow-right-circle />
+          </b-button>
+        </b-form-group>
+      </b-form>
+    </div>
+    <hr>
+  </section>
 </template>
-
-<style scoped>
-.action-thumbnail img {
-  max-height: 30vh;
-}
-.flag img {
-  height: 15px;
-  width: auto;
-}
-</style>
 
 <script>
 export default {
   name: 'Prenotazioni',
+  layout: 'admin',
   data () {
     return {
       form: {
@@ -309,7 +268,8 @@ export default {
         booking: {
           start_date: '',
           end_date: '',
-          room: false
+          room: false,
+          total_price: -1
         }
       },
       availableRooms: [],
@@ -373,7 +333,8 @@ export default {
             address_street: this.form.client.address.street,
             booking_start_date: this.form.booking.start_date,
             booking_end_date: this.form.booking.end_date,
-            booking_room: this.form.booking.room
+            booking_room: this.form.booking.room,
+            total_price: this.form.booking.total_price
           }
 
           // Send request using the parsed data
@@ -529,15 +490,15 @@ export default {
       // Get available rooms
       this.loadAvailableRooms()
     },
-    telHandler ({ number, isValid, country }) {
-      if (this.telValid !== isValid) {
+    telHandler ({ number, valid, country }) {
+      if (this.telValid !== valid) {
         // Set new state
-        this.telValid = isValid
+        this.telValid = valid
 
         // Check if inserted number is valid
-        if (isValid) {
-          // Set data value using international number format
-          this.form.client.phone = number.e164
+        if (valid) {
+          // Set data valƒue using international number format
+          this.form.client.phone = number
         }
       }
     },
@@ -554,14 +515,25 @@ export default {
       return splitStr.join(' ')
     },
     calculateTotalPrice (roomId, totDays) {
-      this.availableRooms.forEach((room) => {
-        if (room.value === roomId) {
-          return room.price * totDays
-        }
-      })
-      return 0
+      const id = this.availableRooms.map(i => i.value).indexOf(roomId)
+      if (id >= 0) {
+        // Valid
+        this.form.booking.total_price = this.availableRooms[id].price * totDays
+        return this.form.booking.total_price
+      } else {
+        return 0
+      }
     }
-  },
-  layout: 'admin'
+  }
 }
 </script>
+
+<style scoped>
+.action-thumbnail img {
+  max-height: 30vh;
+}
+.flag img {
+  height: 15px;
+  width: auto;
+}
+</style>

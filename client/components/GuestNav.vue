@@ -19,20 +19,26 @@
     </b-navbar>
 
     <!-- Navbar -->
-    <b-sidebar id="sidebar-variant" title="Navigazione rapida" bg-variant="white" text-variant="dark" shadow>
-      <div class="px-3 py-2">
+    <b-sidebar
+      id="sidebar-variant"
+      title="Navigazione rapida"
+      bg-variant="white"
+      text-variant="dark"
+      shadow
+    >
+      <div class="my-3 mx-2 text-center">
         <!-- Restourant Logo -->
-        <b-img style="w-50" :src="logo" fluid />
+        <b-img class="logo-menu" :src="logo" fluid />
         <!-- Each page section -->
-        <b-list-group class="mt-4">
-          <b-list-group-item v-for="section in sections" :key="section.number" :href="section.tag" class="flex-column align-items-start">
-            <div class="d-flex w-100 justify-content-between">
-              <h5>
-                {{ section.number }}. {{ section.name }}
+        <div id="links">
+          <div v-for="section in sections" :key="section.number" class="link-item my-2">
+            <nuxt-link :to="section.page" exact>
+              <h5 style="text-primary">
+                {{ section.name }}
               </h5>
-            </div>
-          </b-list-group-item>
-        </b-list-group>
+            </nuxt-link>
+          </div>
+        </div>
       </div>
     </b-sidebar>
   </div>
@@ -45,34 +51,20 @@ export default {
     logo: require('~/assets/img/logos/logo-white.png'),
     sections: [
       {
-        number: 1,
-        name: 'Introduzione',
-        tag: '/contatti'
+        name: 'Homepage',
+        page: '/'
       },
       {
-        number: 2,
-        name: 'Dove trovarci',
-        tag: ''
+        name: 'Orari',
+        page: '/orari'
       },
       {
-        number: 3,
-        name: 'Servizi',
-        tag: ''
+        name: 'Galleria',
+        page: '/galleria'
       },
       {
-        number: 4,
-        name: 'Operatori telefonici',
-        tag: ''
-      },
-      {
-        number: 5,
-        name: 'Stanze',
-        tag: ''
-      },
-      {
-        number: 6,
-        name: 'Punti di interesse',
-        tag: ''
+        name: 'Contatti',
+        page: '/contatti'
       }
     ]
   })
@@ -84,7 +76,31 @@ export default {
   background: linear-gradient(60deg, rgba(255,255,255,1), rgba(255,255,255,1), rgba(255,255,255,0));
 }
 .logo {
-  max-height: 70px;
-  max-width: 70px;
+  max-height: 50px;
+  max-width: 50px;
+}
+
+.logo-menu {
+  max-width: 70%;
+  height: auto;
+}
+
+#links {
+  margin-top: 5vh;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#links h5 {
+  flex-grow: 1;
+  height: auto;
+}
+
+/* exact link will show the primary color for only the exact matching link */
+a.nuxt-link-active {
+  color: #007bff !important;
+  text-underline-offset: 2px;
 }
 </style>

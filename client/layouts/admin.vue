@@ -2,8 +2,11 @@
   <main>
     <admin-nav @logout="logoutUser" />
     <b-container class="mt-5">
-      <!-- Load page here -->
-      <Nuxt />
+      <transition name="fade">
+        <!-- Load page here -->
+        <Nuxt v-if="onLine" />
+        <OfflinePage v-else />
+      </transition>
     </b-container>
   </main>
 </template>
@@ -12,6 +15,27 @@
 // Import navbar from components
 export default {
   name: 'AdminLayout',
+  middleware: 'auth',
+  data: () => ({
+    onLine: navigator.onLine,
+    showBackOnline: false
+  }),
+  watch: {
+    onLine (v) {
+      if (v) {
+        this.showBackOnline = true
+        setTimeout(() => { this.showBackOnline = false }, 1000)
+      }
+    }
+  },
+  mounted () {
+    window.addEventListener('online', this.updateOnlineStatus)
+    window.addEventListener('offline', this.updateOnlineStatus)
+  },
+  beforeDestroy () {
+    window.removeEventListener('online', this.updateOnlineStatus)
+    window.removeEventListener('offline', this.updateOnlineStatus)
+  },
   methods: {
     logoutUser () {
       // Parse data + get fullname
@@ -29,9 +53,12 @@ export default {
           timerProgressBar: true
         })
       })
+    },
+    updateOnlineStatus (e) {
+      const { type } = e
+      this.onLine = type === 'online'
     }
-  },
-  middleware: 'auth'
+  }
 }
 </script>
 
@@ -39,6 +66,11 @@ export default {
   a {
     color:inherit;
     text-decoration: none;
+  }
+
+  .nuxt-link-active {
+    color: white !important;
+    text-decoration: underline;
   }
 
   /* Swal notification blur */
@@ -49,5 +81,4 @@ export default {
   body > * {
     transition: 0.1s filter linear;
   }
-
 </style>

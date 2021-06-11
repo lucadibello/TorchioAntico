@@ -1,34 +1,40 @@
 <template>
-  <b-container>
-    <b-form @submit.prevent="login">
-      <h1>Accedi</h1>
-      <b-form-group
-        id="input-group-1"
-      >
-        {{ this.$store.state.localStorage }}
-        <b-form-input
-          id="email-input"
-          v-model="form.email"
-          type="email"
-          autocomplete="email"
-          required
-          placeholder="Inserisci E-Mail"
-        />
+  <b-container id="main-container" fluid>
+    <b-form id="form" @submit.prevent="login">
+      <div id="form-content" class="mb-3">
+        <!-- Logo here -->
+        <b-img id="logo" :src="logo" alt="Al Torchio Antico logo" />
 
-        <b-form-input
-          id="password-input"
-          v-model="form.password"
-          class="mt-3"
-          type="password"
-          autocomplete="current-password"
-          required
-          placeholder="Inserisci password"
-        />
-      </b-form-group>
+        <h2 class="text-left p-2">
+          Esegui l'accesso
+        </h2>
+        <b-form-group
+          id="input-group-1"
+        >
+          <b-form-input
+            id="email-input"
+            v-model="form.email"
+            type="email"
+            autocomplete="email"
+            required
+            placeholder="Inserisci E-Mail"
+          />
 
-      <b-button type="submit" variant="primary">
-        Accedi
-      </b-button>
+          <b-form-input
+            id="password-input"
+            v-model="form.password"
+            class="mt-3"
+            type="password"
+            autocomplete="current-password"
+            required
+            placeholder="Inserisci password"
+          />
+        </b-form-group>
+
+        <b-button type="submit" variant="primary">
+          Accedi
+        </b-button>
+      </div>
     </b-form>
   </b-container>
 </template>
@@ -36,13 +42,15 @@
 <script>
 export default {
   name: 'Login',
-  layout: 'basic',
+  layout: 'empty',
+  middleware: 'auth',
   data () {
     return {
       form: {
         password: '',
         email: ''
-      }
+      },
+      logo: require('~/assets/img/logos/logo-white.png')
     }
   },
   methods: {
@@ -114,7 +122,47 @@ export default {
       return /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(this.form.email)
     }
   },
-  middleware: 'auth',
   auth: 'guest'
 }
 </script>
+
+<style scoped>
+#main-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  flex-flow: column;
+}
+
+#form {
+  border-radius: 25px;
+  background: #fff;
+  padding: 20px;
+  text-align: center !important;
+}
+
+form {
+  width: 700px;
+  margin: auto
+}
+
+#logo {
+  max-height: 330px;
+  max-width: auto;
+}
+
+#main-container {
+  background-color: #007bff !important;
+}
+
+@media only screen and (max-width: 750px) {
+  form {
+    width: 100%;
+  }
+
+  #logo {
+    max-height: 200px;
+    max-width: auto;
+  }
+}
+</style>

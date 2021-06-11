@@ -20,8 +20,19 @@
             </h5>
 
             <p>
-              <nuxt-link to="/" tag="a" class="text-dark">
+              <nuxt-link to="/" class="text-dark" exact>
                 Home
+              </nuxt-link>
+            </p>
+
+            <p class="my-3">
+              <nuxt-link to="/orari" class="text-dark" exact>
+                Orari
+              </nuxt-link>
+            </p>
+            <p class="my-3">
+              <nuxt-link to="/galleria" class="text-dark" exact>
+                Galleria
               </nuxt-link>
             </p>
           </b-col>
@@ -31,20 +42,20 @@
             </h5>
 
             <p>
-              <router-link to="/condizioni" tag="a" class="text-dark">
+              <nuxt-link to="/condizioni" class="text-dark" exact>
                 Condizioni d'utilizzo
-              </router-link>
+              </nuxt-link>
             </p>
             <p class="my-3">
-              <router-link to="/contatti" tag="a" class="text-dark">
+              <nuxt-link to="/contatti" class="text-dark" exact>
                 Contatti
-              </router-link>
+              </nuxt-link>
             </p>
           </b-col>
         </b-row>
       </div>
       <div id="footer-copyright" class="bg-white text-dark text-center">
-        <nuxt-link v-slot="{ href, navigate }" to="/condizioni">
+        <nuxt-link v-slot="{ href, navigate }" to="/condizioni" exact>
           <span>
             <a class="font-weight-bold text-dark" :href="href" @click="navigate">
               Al Torchio Antico
@@ -59,7 +70,7 @@
 
 <script>
 export default {
-  name: 'Footer',
+  name: 'GuestFooter',
   data () {
     return {
       currentYear: new Date().getFullYear()
@@ -90,6 +101,12 @@ a:visited {
 
 #footer-copyright {
   margin-top: 3vh;
+}
+
+/* exact link will show the primary color for only the exact matching link */
+a.nuxt-link-active {
+  color: #007bff !important;
+  text-underline-offset: 2px;
 }
 
 @media only screen and (max-width: 700px) {

@@ -1,65 +1,27 @@
 <template>
-  <b-carousel
-    id="carousel-1"
-    v-model="slide"
-    :interval="4000"
-    controls
-    indicators
-    background="#ababab"
-    style="text-shadow: 1px 1px 2px #333;"
-  >
-    <!-- Text slides with image -->
-    <b-carousel-slide
-      class="custom-slide"
-      caption="First slide"
-      text="Nulla vitae elit libero, a pharetra augue mollis interdum."
-      :img-src="require('assets/img/carousel/foto1.webp')"
-    />
-
-    <!-- Text slides with image -->
-    <b-carousel-slide
-      caption="First slide"
-      text="Nulla vitae elit libero, a pharetra augue mollis interdum."
-      :img-src="require('assets/img/carousel/foto2.webp')"
-    />
-
-    <!-- Text slides with image -->
-    <b-carousel-slide
-      caption="First slide"
-      text="Nulla vitae elit libero, a pharetra augue mollis interdum."
-      :img-src="require('assets/img/carousel/foto3.webp')"
-    />
-
-    <!-- Text slides with image -->
-    <b-carousel-slide
-      caption="First slide"
-      text="Nulla vitae elit libero, a pharetra augue mollis interdum."
-      :img-src="require('assets/img/carousel/foto4.webp')"
-    />
-
-    <!-- Text slides with image -->
-    <b-carousel-slide
-      caption="First slide"
-      text="Nulla vitae elit libero, a pharetra augue mollis interdum."
-      :img-src="require('assets/img/carousel/foto5.webp')"
-    />
-  </b-carousel>
+  <carousel-3d :height="445" :width="750" :autoplay="true" :autoplay-timeout="3000">
+    <slide v-for="(slide, i) in slides" :key="i" :index="i">
+      <b-img :src="slide.src" :alt="slide.alt" />
+    </slide>
+  </carousel-3d>
 </template>
 
-<script lang="ts">
+<script>
 export default {
   name: 'GuestCarousel',
-  data () {
-    return {
-      slide: 0
-    }
-  }
+  data: () => ({
+    slides: [
+      { src: require('assets/img/carousel/jpeg/foto1.jpg'), alt: 'Entrata ristorante' },
+      { src: require('assets/img/carousel/jpeg/foto2.jpg'), alt: 'Ristorante interno' },
+      { src: require('assets/img/carousel/jpeg/foto3.jpg'), alt: 'Cortile esterno' },
+      { src: require('assets/img/carousel/jpeg/foto4.jpg'), alt: 'Tavolo con piatto' }
+    ]
+  })
 }
 </script>
 
-<style>
-.custom-slide img{
-  max-height: 10% !important;
-  object-fit: cover;
+<style scoped>
+.carousel-3d-slide {
+  height: auto !important;
 }
 </style>
