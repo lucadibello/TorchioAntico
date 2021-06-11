@@ -67,7 +67,7 @@
             <b-list-group-item>Data di inizio: {{ $moment(item.booking_start_date).format('DD.MM.YYYY') }}</b-list-group-item>
             <b-list-group-item>Data di fine: {{ $moment(item.booking_end_date).format('DD.MM.YYYY') }}</b-list-group-item>
             <b-list-group-item>Stanza: {{ item._roomInfo.name }}</b-list-group-item>
-            <b-list-group-item>Persone: <span class="text-danger">DA FARE</span></b-list-group-item>
+            <b-list-group-item>Persone: {{ item.number_of_people }}</b-list-group-item>
           </b-list-group>
 
           <!-- Extra information -->

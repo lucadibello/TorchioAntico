@@ -14,9 +14,25 @@ module.exports = {
       res.send(bookings)
     })
   },
+  getYears (req, res) {
+    Booking.findAll({
+      order: [
+        ['updatedAt', 'DESC'],
+      ],
+      attributes: [
+        [Sequelize.fn('year', Sequelize.col("updatedAt")), 'year']
+      ],
+      group: ['year']
+    })
+    .then(years => years.map(i => i.dataValues.year))
+    .then (years => res.send(years))
+  },
   getStatistics (req, res) {
     // Group by month number + count bookings per month
     Booking.count({
+      where: [
+        Sequelize.where(Sequelize.fn("year", Sequelize.col("updatedAt")), req.params.year)
+      ],
       attributes: [
         [Sequelize.fn("month", Sequelize.col("updatedAt")), 'month']
       ],
@@ -70,7 +86,8 @@ module.exports = {
       booking_start_date: req.body.booking_start_date,
       booking_end_date: req.body.booking_end_date,
       room_id: req.body.booking_room,
-      total_price: req.body.total_price
+      total_price: req.body.total_price,
+      number_of_people: req.body.number_of_people
     }).then((booking) => {
       if (!booking) {
         res.status(400).send({

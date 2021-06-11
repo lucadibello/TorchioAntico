@@ -45,6 +45,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DATEONLY,
         allowNull: true
       },
+      number_of_people: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+      },
       total_price: {
         type: DataTypes.FLOAT,
         allowNull: false

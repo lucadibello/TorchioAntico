@@ -167,6 +167,18 @@
         </h4>
         <!-- Booking information -->
         <section>
+          <b-row class="mb-3">
+            <b-col>
+              <!-- Address -->
+              <b-form-group
+                id="input-group-7"
+                label="Numero ospiti"
+                label-for="guest-counter"
+              >
+                <b-form-input id="guest-counter" v-model="form.booking.n_people" min="1" type="number" />
+              </b-form-group>
+            </b-col>
+          </b-row>
           <b-row>
             <b-col>
               <!-- Start date -->
@@ -192,7 +204,6 @@
               />
             </b-col>
           </b-row>
-
           <!-- Show message -->
           <div v-if="isStartDateValid() && isEndDateValid()">
             Totale notti:  <b-badge pill variant="info">
@@ -210,12 +221,10 @@
               <div v-if="availableRooms.length > 0">
                 <!-- Room selector -->
                 <b-form-select id="input-rooms" v-model="form.booking.room" :options="availableRooms" required />
-                <div v-if="form.booking.room != false">
-                  <!-- Room selected -->
-                  <b-badge pill variant="success">
-                    {{ calculateTotalPrice(form.booking.room, calculateNights) }} <b>CHF</b>
-                  </b-badge>
-                </div>
+                <!-- Room selected -->
+                <h5 v-if="Boolean(form.booking.room)" class="mt-5">
+                  Prezzo complessivo: {{ calculateTotalPrice(form.booking.room, calculateNights) }} <b>CHF</b>
+                </h5>
               </div>
               <div v-else class="text-center">
                 <p class="text-danger">
@@ -237,7 +246,7 @@
         <!-- Submit button -->
         <b-form-group class="mt-5">
           <b-button type="submit" variant="primary">
-            Procedi <b-icon-arrow-right-circle />
+            Registra prenotazione <b-icon-arrow-right-circle />
           </b-button>
         </b-form-group>
       </b-form>
@@ -269,7 +278,8 @@ export default {
           start_date: '',
           end_date: '',
           room: false,
-          total_price: -1
+          total_price: -1,
+          n_people: 1
         }
       },
       availableRooms: [],
@@ -334,7 +344,8 @@ export default {
             booking_start_date: this.form.booking.start_date,
             booking_end_date: this.form.booking.end_date,
             booking_room: this.form.booking.room,
-            total_price: this.form.booking.total_price
+            total_price: this.form.booking.total_price,
+            number_of_people: this.form.booking.n_people
           }
 
           // Send request using the parsed data
@@ -356,6 +367,7 @@ export default {
             // Clear available rooms + clear valid flag
             this.telValid = false
             this.availableRooms = []
+            this.form.booking.number_of_people = 1
             // Show success message
             this.$swal({
               title: 'Prenotazione registrata correttamente',

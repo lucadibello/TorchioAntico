@@ -1,6 +1,8 @@
 <template>
   <article>
-    <h1>Dashboard</h1>
+    <h1 class="display-4">
+      Dashboard
+    </h1>
 
     <!-- Counter -->
     <b-card-group deck>
@@ -37,9 +39,24 @@
 
     <!-- Chart box -->
     <div class="w-100 mt-5">
-      <h2>Statistica prenotazioni globali</h2>
+      <h2 class="display-4 mb-0">
+        Statistica prenotazioni
+      </h2>
+      <small>Visualizza il numero di prenotazioni di ogni mese, per ogni anno registrato nella banca dati</small>
+      <hr>
+      <!-- Show alert if any year selected -->
+      <transition name="fade">
+        <b-alert :show="!Boolean(selectedYear)" variant="warning">
+          Devi prima selezionare un anno tramite il menù qui sotto!
+        </b-alert>
+      </transition>
+
+      <!-- Year drop down menu -->
+      <small>Seleziona anno</small>
+      <b-form-select v-model="selectedYear" :options="charts.select.years" />
+
       <!-- Load animation -->
-      <b-overlay :show="!charts.bookings.loaded" :opacity=".95" spinner-type="grow" spinner-variant="success">
+      <b-overlay v-if="Boolean(selectedYear)" :show="!charts.bookings.loaded" :opacity=".95" spinner-type="grow" spinner-variant="success">
         <client-only>
           <line-chart v-if="charts.bookings.loaded" :data="Object.values(charts.bookings.data)" :labels="charts.bookings.labels" :data-label="charts.bookings.dataLabel" />
         </client-only>
@@ -55,6 +72,7 @@ export default {
   layout: 'admin',
   data () {
     return {
+      selectedYear: false,
       counters: {
         users: {
           data: 0,
@@ -73,6 +91,9 @@ export default {
         }
       },
       charts: {
+        select: {
+          years: []
+        },
         bookings: {
           dataLabel: 'Prenotazioni mensili',
           data: {
@@ -95,6 +116,12 @@ export default {
       }
     }
   },
+  watch: {
+    selectedYear (year) {
+      // Reload graph data from APIs
+      this.getBookingChartData(year)
+    }
+  },
   created () {
     // Update user counter
     this.getUsersCounter()
@@ -102,8 +129,8 @@ export default {
     this.getRoomsCounter()
     // Update booking counter
     this.getBookingsCounter()
-    // Load booking chart
-    this.getBookingChartData()
+    // Load years select
+    this.getAvailableYears()
   },
   methods: {
     getUsersCounter () {
@@ -133,11 +160,25 @@ export default {
         this.counters.bookings.loaded = true
       })
     },
-    getBookingChartData () {
+    getAvailableYears () {
+      // fetch data from APIs
+      this.$axios.get('booking/available/years').then((years) => {
+        // Extract response data
+        this.charts.select.years = years.data
+      })
+    },
+    getBookingChartData (year) {
+      this.charts.bookings.loaded = false
       // fetch data
-      this.$axios.get('booking/stats').then((stats) => {
+      this.$axios.get('booking/stats/' + year).then((stats) => {
         // Extract response data
         const monthlyStatistics = stats.data
+
+        // Clear all month data
+        for (let i = 1; i <= 12; i++) {
+          this.charts.bookings.data[i] = 0
+        }
+
         // Cycle every month's data
         monthlyStatistics.forEach((monthData) => {
           // Set data for month

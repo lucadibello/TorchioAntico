@@ -22,6 +22,7 @@ module.exports = {
       booking_start_date: Joi.date().required(),
       // Allow string or number
       booking_room: Joi.alternatives().try(Joi.number(), Joi.string()).required(),
+      number_of_people: Joi.number().min(1).required(),
       total_price: Joi.number().required()
     });
 

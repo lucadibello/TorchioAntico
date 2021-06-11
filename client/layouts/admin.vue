@@ -4,7 +4,7 @@
     <b-container class="mt-5">
       <transition name="fade">
         <!-- Load page here -->
-        <Nuxt v-if="onLine" />
+        <Nuxt v-if="$nuxt.isOnline" />
         <OfflinePage v-else />
       </transition>
     </b-container>
@@ -16,26 +16,6 @@
 export default {
   name: 'AdminLayout',
   middleware: 'auth',
-  data: () => ({
-    onLine: navigator.onLine,
-    showBackOnline: false
-  }),
-  watch: {
-    onLine (v) {
-      if (v) {
-        this.showBackOnline = true
-        setTimeout(() => { this.showBackOnline = false }, 1000)
-      }
-    }
-  },
-  mounted () {
-    window.addEventListener('online', this.updateOnlineStatus)
-    window.addEventListener('offline', this.updateOnlineStatus)
-  },
-  beforeDestroy () {
-    window.removeEventListener('online', this.updateOnlineStatus)
-    window.removeEventListener('offline', this.updateOnlineStatus)
-  },
   methods: {
     logoutUser () {
       // Parse data + get fullname
@@ -53,10 +33,6 @@ export default {
           timerProgressBar: true
         })
       })
-    },
-    updateOnlineStatus (e) {
-      const { type } = e
-      this.onLine = type === 'online'
     }
   }
 }
