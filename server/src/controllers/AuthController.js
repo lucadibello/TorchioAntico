@@ -60,7 +60,7 @@ module.exports = {
                 },
                 {
                   algorithm: "RS256",
-                  expiresIn: "1h",
+                  expiresIn: "30m",
                 }
               );
 
