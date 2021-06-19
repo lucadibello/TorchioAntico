@@ -1,6 +1,6 @@
 export default function ({ $axios, $swal, app }) {
-  $axios.onResponseError((err) => {
-    if (app.store.state.auth.isLogged) {
+  $axios.onError((err) => {
+    if (app.store.state.auth.loggedIn) {
       const statusCode = err.response.status
       switch (statusCode) {
         case 401:
