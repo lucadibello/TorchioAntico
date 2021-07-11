@@ -11,23 +11,23 @@
           Al Torchio Antico, <span class="text-primary">Staff</span>
         </h2>
         <a
-          href="tel:+41765969984"
+          href="tel:+41916464994"
           rel="author"
           title="Chiama Il Torchio Antico"
           alt="Chiama Il Torchio Antico"
           class="contact"
         >
-          <b-icon-telephone-forward /> +41 76 596 9984
+          <b-icon-telephone-forward /> +41 91 646 49 94
         </a>
         <!-- Email -->
         <a
-          href="mailto:example@email.com"
+          href="mailto:rema.2018.restourant@gmail.com"
           rel="author"
           title="Scrivi al Torchio Antico"
           alt="Scrivi al Torchio Antico"
           class="contact"
         >
-          <b-icon-mailbox /> example@email.com
+          <b-icon-mailbox /> rema.2018.restourant@gmail.com
         </a>
       </b-col>
     </b-row>

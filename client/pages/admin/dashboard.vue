@@ -53,14 +53,19 @@
 
       <!-- Year drop down menu -->
       <small>Seleziona anno</small>
-      <b-form-select v-model="selectedYear" :options="charts.select.years" />
+      <section v-if="charts.select.years.length > 0" class="mb-5">
+        <b-form-select v-model="selectedYear" :options="charts.select.years" />
 
-      <!-- Load animation -->
-      <b-overlay v-if="Boolean(selectedYear)" :show="!charts.bookings.loaded" :opacity=".95" spinner-type="grow" spinner-variant="success">
-        <client-only>
-          <line-chart v-if="charts.bookings.loaded" :data="Object.values(charts.bookings.data)" :labels="charts.bookings.labels" :data-label="charts.bookings.dataLabel" />
-        </client-only>
-      </b-overlay>
+        <!-- Load animation -->
+        <b-overlay v-if="Boolean(selectedYear)" :show="!charts.bookings.loaded" :opacity=".95" spinner-type="grow" spinner-variant="success">
+          <client-only>
+            <line-chart v-if="charts.bookings.loaded" :data="Object.values(charts.bookings.data)" :labels="charts.bookings.labels" :data-label="charts.bookings.dataLabel" />
+          </client-only>
+        </b-overlay>
+      </section>
+      <section v-else class="text-center">
+        <small class="text-danger">Non ci sono ancora prenotazioni nel sistema. Questa funzione non è disponibile</small>
+      </section>
     </div>
   </article>
 </template>

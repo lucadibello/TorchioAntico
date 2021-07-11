@@ -16,7 +16,19 @@
         variant="dark"
         :items="hours"
         :fields="hoursField"
-      />
+      >
+        <!-- A custom formatted column -->
+        <template #cell(open)="data">
+          <span v-if="Array.isArray(data.value)">{{ data.value[0] }} <br> {{ data.value[1] }}</span>
+          <span v-else>{{ data.value }}</span>
+        </template>
+
+        <!-- A custom formatted column -->
+        <template #cell(closes)="data">
+          <span v-if="Array.isArray(data.value)">{{ data.value[0] }} <br> {{ data.value[1] }}</span>
+          <span v-else>{{ data.value }}</span>
+        </template>
+      </b-table>
     </b-container>
   </section>
 </template>
@@ -26,48 +38,50 @@ export default {
   name: 'Orari',
   data: () => ({
     hours: [
-      { // SUNDAY
-        name: 'Domenica',
+      {
+        // SUNDAY
         isOpen: true,
-        open: '09:00',
-        closes: '23:00'
+        name: 'Domenica',
+        open: ['10:00', '14:00'],
+        closes: ['17:00', '23:00']
       },
-      { // MONDAY
-        name: 'Lunedì',
+      {
+        // MONDAY
         isOpen: false,
+        name: 'Lunedì',
+        _rowVariant: 'danger',
         open: 'Chiuso',
-        closes: 'Chiuso',
-        _rowVariant: 'danger'
+        closes: 'Chiuso'
       },
       { // TUESDAY
-        name: 'Martedì',
         isOpen: true,
+        name: 'Martedì',
         open: '17:00',
-        closes: '23:00'
+        closes: '22:00'
       },
       { // WEDNESDAY
-        name: 'Mercoledì',
         isOpen: true,
+        name: 'Mercoledì',
         open: '17:00',
-        closes: '23:00'
+        closes: '22:00'
       },
       { // THURSDAY
-        name: 'Giovedì',
         isOpen: true,
+        name: 'Giovedì',
         open: '17:00',
-        closes: '23:00'
+        closes: '22:00'
       },
       { // FRIDAY
-        name: 'Venerdì',
         isOpen: true,
-        open: '09:00',
-        closes: '23:00'
+        name: 'Venerdì',
+        open: '17:00',
+        closes: '22:00'
       },
       { // SATURDAY
-        name: 'Sabato',
         isOpen: true,
-        open: '09:00',
-        closes: '23:00'
+        name: 'Sabato',
+        open: ['10:00', '14:00'],
+        closes: ['17:00', '23:00']
       }
     ],
     hoursField: [

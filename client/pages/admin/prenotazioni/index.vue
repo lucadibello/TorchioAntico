@@ -283,7 +283,9 @@ export default {
         }
       },
       availableRooms: [],
+      isValid: [],
       countries: [],
+      isNPeopleValid: false,
       telProps: {
         defaultCountry: 'CH',
         mode: 'international',
@@ -319,6 +321,20 @@ export default {
         // Calculate end date using old days difference
         this.form.booking.end_date = startDate.add(daysDiff, 'days').format('YYYY-MM-DD')
       }
+    },
+    // eslint-disable-next-line object-shorthand
+    availableRooms: function (val, oldVal) {
+      let found = false
+
+      // Check if available
+      val.forEach((room) => {
+        if (room.nPeople >= this.form.booking.n_people) {
+          found = true
+        }
+      })
+
+      // Update flag
+      this.isNPeopleValid = found
     }
   },
   mounted () {
@@ -452,7 +468,7 @@ export default {
           .then((availableRooms) => {
             // Map data
             this.availableRooms = availableRooms.data.map((room) => {
-              return { value: room.id, text: room.name, price: room.price }
+              return { value: room.id, text: room.name, price: room.price, nPeople: room.nPeople }
             })
           }).catch((err) => {
             // eslint-disable-next-line no-console

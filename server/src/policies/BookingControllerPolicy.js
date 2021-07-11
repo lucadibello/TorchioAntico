@@ -118,7 +118,7 @@ module.exports = {
         raw: true
       }).then((booked_rooms) => {
         // Check if selected room is not in the list
-
+        
         // Extract ids from dictionary
         const roomIds = booked_rooms.map(room => {
           return room.room_id

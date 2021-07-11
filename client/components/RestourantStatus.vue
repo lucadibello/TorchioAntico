@@ -31,6 +31,17 @@
               <strong>Carico informazioni</strong>
             </div>
           </template>
+
+          <!-- A custom formatted column -->
+          <template #cell(open)="data">
+            <span v-if="Array.isArray(data.value)">{{ data.value[0] }} <br> {{ data.value[1] }}</span>
+            <span v-else>{{ data.value }}</span>
+          </template>
+
+          <template #cell(closes)="data">
+            <span v-if="Array.isArray(data.value)">{{ data.value[0] }} <br> {{ data.value[1] }}</span>
+            <span v-else>{{ data.value }}</span>
+          </template>
         </b-table>
       </client-only>
     </template>
