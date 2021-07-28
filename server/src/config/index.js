@@ -6,10 +6,11 @@ let _PRIVATE_KEY = false
 let _PUBLIC_KEY = false
 
 try {
-  _PRIVATE_KEY = fs.readFileSync(path.resolve(process.env.JWT_PRIVATE_KEY_PATH))
-  _PUBLIC_KEY = fs.readFileSync(path.resolve(process.env.JWT_PUBLIC_KEY_PATH))
+  _PRIVATE_KEY = fs.readFileSync(path.resolve(process.env.JWT_PRIVATE_KEY_PATH || './.keys.private.pem'))
+  _PUBLIC_KEY = fs.readFileSync(path.resolve(process.env.JWT_PUBLIC_KEY_PATH || './.keys.public.pem'))
 } catch (e) {
   console.warn(e)
+  return
 }
 
 module.exports = {
@@ -28,7 +29,8 @@ module.exports = {
     database_password: process.env.DB_PASSWORD,
     database_options: {
       dialect: process.env.DB_DIALECT,
-      host: process.env.DB_HOST
+      host: process.env.DB_HOST,
+      port: process.env.DB_PORT
     } 
   }
 }
