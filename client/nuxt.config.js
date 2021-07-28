@@ -1,9 +1,7 @@
-const BASE_URL = 'http://localhost:5000'
-
 export default {
   // Environment variables
   env: {
-    baseUrl: BASE_URL
+    baseUrl: process.env.BASE_URL || 'http://localhost:5000'
   },
 
   // Global page headers: https://go.nuxtjs.dev/config-head
@@ -88,7 +86,7 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: BASE_URL + '/api'
+    baseURL: process.env.baseUrl + '/api'
   },
 
   // Pwa manifest options: https://pwa.nuxtjs.org/manifest/
@@ -133,8 +131,8 @@ export default {
     strategies: {
       local: {
         endpoints: {
-          login: { url: BASE_URL + '/api/auth/login', method: 'post' },
-          user: { url: BASE_URL + '/api/auth/user', method: 'get', propertyName: false },
+          login: { url: process.env.baseUrl + '/api/auth/login', method: 'post' },
+          user: { url: process.env.baseUrl + '/api/auth/user', method: 'get', propertyName: false },
           logout: false
         }
       }
