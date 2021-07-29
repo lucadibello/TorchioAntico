@@ -65,7 +65,9 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     // https://go.nuxtjs.dev/eslint
-    '@nuxtjs/eslint-module'
+    '@nuxtjs/eslint-module',
+    // https://google-analytics.nuxtjs.org/setup
+    '@nuxtjs/google-analytics'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -150,5 +152,9 @@ export default {
     redirectSSL.create({
       enabled: process.env.NODE_ENV === 'production'
     })
-  ]
+  ],
+
+  googleAnalytics: {
+    id: process.env.GOOGLE_ANALYTICS_TOKEN || 'UA-XXX-X'
+  }
 }
