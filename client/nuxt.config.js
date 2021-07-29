@@ -1,7 +1,9 @@
+import redirectSSL from 'redirect-ssl'
+
 export default {
   // Environment variables
   env: {
-    baseUrl: process.env.BASE_URL || 'http://localhost:5000'
+    baseUrl: process.env.BASE_URL || 'http://localhost:8080'
   },
 
   // Global page headers: https://go.nuxtjs.dev/config-head
@@ -141,5 +143,12 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-  }
+  },
+
+  // Server middlewares: https://nuxtjs.org/docs/2.x/configuration-glossary/configuration-servermiddleware
+  serverMiddleware: [
+    redirectSSL.create({
+      enabled: process.env.NODE_ENV === 'production'
+    })
+  ]
 }
