@@ -3,7 +3,7 @@ import redirectSSL from 'redirect-ssl'
 export default {
   // Environment variables
   env: {
-    baseUrl: process.env.BASE_URL || 'http://localhost:8080'
+    BASE_URL: process.env.BASE_URL || 'http://localhost:8080'
   },
 
   // Global page headers: https://go.nuxtjs.dev/config-head
@@ -85,8 +85,17 @@ export default {
     // Optimized Moment.JS
     '@nuxtjs/moment',
     // Nuxt Leaflet.js
-    'nuxt-leaflet'
+    'nuxt-leaflet',
+    // Robots module
+    '@nuxtjs/robots'
   ],
+
+  // Robots module options
+  robots: {
+    UserAgent: '*',
+    Allow: ['/', '/orari', '/galleria', '/condizioni', '/contatti'],
+    Disallow: '/admin'
+  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
@@ -135,8 +144,8 @@ export default {
     strategies: {
       local: {
         endpoints: {
-          login: { url: process.env.baseUrl + '/api/auth/login', method: 'post' },
-          user: { url: process.env.baseUrl + '/api/auth/user', method: 'get', propertyName: false },
+          login: { url: process.env.BASE_URL + '/api/auth/login', method: 'post' },
+          user: { url: process.env.BASE_URL + '/api/auth/user', method: 'get', propertyName: false },
           logout: false
         }
       }
