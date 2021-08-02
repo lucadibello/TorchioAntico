@@ -221,9 +221,16 @@
               <div v-if="availableRooms.length > 0">
                 <!-- Room selector -->
                 <b-form-select id="input-rooms" v-model="form.booking.room" :options="availableRooms" required />
+
+                <!-- Show people error if required -->
+                <div v-if="form.booking.room != '' && !isTotalPeopleValid(form.booking.n_people)">
+                  <b-alert variant="danger" style="margin-top:5%" show>
+                    Oops! La camera può contenere massimo {{ getSelectedRoom().nPeople }} persone.
+                  </b-alert>
+                </div>
                 <!-- Room selected -->
                 <h5 v-if="Boolean(form.booking.room)" class="mt-5">
-                  Prezzo complessivo: {{ calculateTotalPrice(form.booking.room, calculateNights) }} <b>CHF</b>
+                  Prezzo complessivo: {{ calculateTotalPrice(form.booking.room, calculateNights, form.booking.n_people) }} <b>CHF</b>
                 </h5>
               </div>
               <div v-else class="text-center">
@@ -542,11 +549,37 @@ export default {
       // Directly return the joined string
       return splitStr.join(' ')
     },
-    calculateTotalPrice (roomId, totDays) {
+    getSelectedRoom () {
+      if (this.form.booking.room == null || this.form.booking.room === undefined) {
+        return null
+      }
+
+      const id = this.availableRooms.map(i => i.value).indexOf(this.form.booking.room)
+      if (id >= 0) {
+        // Valid if the room can contain all the people specified
+        return this.availableRooms[id]
+      } else {
+        return null
+      }
+    },
+    isTotalPeopleValid (nPeople) {
+      if (this.form.booking.room == null || this.form.booking.room === undefined) {
+        return false
+      }
+
+      const id = this.availableRooms.map(i => i.value).indexOf(this.form.booking.room)
+      if (id >= 0) {
+        // Valid if the room can contain all the people specified
+        return this.availableRooms[id].nPeople >= parseInt(nPeople)
+      } else {
+        return false
+      }
+    },
+    calculateTotalPrice (roomId, totDays, nPeople) {
       const id = this.availableRooms.map(i => i.value).indexOf(roomId)
       if (id >= 0) {
         // Valid
-        this.form.booking.total_price = this.availableRooms[id].price * totDays
+        this.form.booking.total_price = this.availableRooms[id].price * totDays * nPeople
         return this.form.booking.total_price
       } else {
         return 0
