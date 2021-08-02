@@ -95,7 +95,7 @@ export default {
   // Robots module options
   robots: {
     UserAgent: '*',
-    Allow: ['/', '/orari', '/galleria', '/condizioni', '/contatti', apiUrl],
+    Allow: ['/', '/orari', '/galleria', '/condizioni', '/contatti'],
     Disallow: '/admin'
   },
 
