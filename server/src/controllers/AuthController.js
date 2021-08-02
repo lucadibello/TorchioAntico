@@ -70,6 +70,11 @@ module.exports = {
                 token: jwt_token
               });
             }
+          }).catch((err) => {
+            res.send({
+              message: "Password error",
+              error: JSON.stringify(err)
+            });
           });
       }
     });
