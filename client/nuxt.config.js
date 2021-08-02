@@ -1,9 +1,11 @@
 import redirectSSL from 'redirect-ssl'
 
+const apiUrl = process.env.BASE_URL || 'http://localhost:5000'
+
 export default {
   // Environment variables
   env: {
-    BASE_URL: process.env.BASE_URL || 'http://localhost:8080'
+    BASE_URL: apiUrl
   },
 
   // Global page headers: https://go.nuxtjs.dev/config-head
@@ -93,13 +95,13 @@ export default {
   // Robots module options
   robots: {
     UserAgent: '*',
-    Allow: ['/', '/orari', '/galleria', '/condizioni', '/contatti'],
+    Allow: ['/', '/orari', '/galleria', '/condizioni', '/contatti', apiUrl],
     Disallow: '/admin'
   },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: process.env.baseUrl + '/api'
+    baseURL: apiUrl + '/api'
   },
 
   // Pwa manifest options: https://pwa.nuxtjs.org/manifest/
@@ -138,14 +140,15 @@ export default {
     },
     token: {
       required: true,
+      global: true,
       property: 'token',
       type: 'Bearer'
     },
     strategies: {
       local: {
         endpoints: {
-          login: { url: process.env.BASE_URL + '/api/auth/login', method: 'post' },
-          user: { url: process.env.BASE_URL + '/api/auth/user', method: 'get', propertyName: false },
+          login: { url: apiUrl + '/api/auth/login', method: 'post' },
+          user: { url: apiUrl + '/api/auth/user', method: 'get', propertyName: false },
           logout: false
         }
       }
