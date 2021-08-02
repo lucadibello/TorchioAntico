@@ -6,8 +6,8 @@ let _PRIVATE_KEY = false
 let _PUBLIC_KEY = false
 
 try {
-  _PRIVATE_KEY = fs.readFileSync(path.resolve(process.env.JWT_PRIVATE_KEY_PATH || './.keys.private.pem'))
-  _PUBLIC_KEY = fs.readFileSync(path.resolve(process.env.JWT_PUBLIC_KEY_PATH || './.keys.public.pem'))
+  _PRIVATE_KEY = fs.readFileSync(path.resolve(process.env.JWT_PRIVATE_KEY_PATH || './.keys/private.pem'))
+  _PUBLIC_KEY = fs.readFileSync(path.resolve(process.env.JWT_PUBLIC_KEY_PATH || './.keys/public.pem'))
 } catch (e) {
   console.warn(e)
   return
