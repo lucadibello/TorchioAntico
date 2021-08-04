@@ -1,6 +1,7 @@
 import redirectSSL from 'redirect-ssl'
 
 const apiUrl = process.env.BASE_URL || 'http://localhost:5000'
+const googleAnalyticsToken = process.env.GOOGLE_ANALYTICS_TOKEN || 'UA-XXX-X'
 
 export default {
   // Environment variables
@@ -67,9 +68,7 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     // https://go.nuxtjs.dev/eslint
-    '@nuxtjs/eslint-module',
-    // https://google-analytics.nuxtjs.org/setup
-    '@nuxtjs/google-analytics'
+    '@nuxtjs/eslint-module'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -89,7 +88,9 @@ export default {
     // Nuxt Leaflet.js
     'nuxt-leaflet',
     // Robots module
-    '@nuxtjs/robots'
+    '@nuxtjs/robots',
+    // https://github.com/nuxt-community/google-gtag-module
+    '@nuxtjs/google-gtag'
   ],
 
   // Robots module options
@@ -166,7 +167,17 @@ export default {
     })
   ],
 
-  googleAnalytics: {
-    id: process.env.GOOGLE_ANALYTICS_TOKEN || 'UA-XXX-X'
+  // https://github.com/nuxt-community/google-gtag-module
+  'google-gtag': {
+    id: googleAnalyticsToken,
+    config: {
+      anonymize_ip: false, // anonymize IP
+      send_page_view: false, // might be necessary to avoid duplicated page track on page reload
+      linker: {
+        domains: ['torchioantico.ch']
+      }
+    },
+    debug: false, // enable to track in dev mode
+    disableAutoPageTrack: false // disable if you don't want to track each page route with router.afterEach(...).
   }
 }
