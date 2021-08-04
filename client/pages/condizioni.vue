@@ -61,8 +61,22 @@
 <script>
 export default {
   name: 'Condizioni',
-  data: () => ({
-    generalTOS: ''
+  head: () => ({
+    title: 'Contatti',
+    meta: [{
+      hid: 'description',
+      name: 'description',
+      content: 'Condizioni d\'utilizzo della pagina web www.torchioantico.ch'
+    }, {
+      hid: 'og:description',
+      name: 'og:description',
+      content: 'Condizioni d\'utilizzo della pagina web www.torchioantico.ch'
+    },
+    {
+      hid: 'og:title',
+      name: 'og:title',
+      content: 'Contatti'
+    }]
   })
 }
 </script>
