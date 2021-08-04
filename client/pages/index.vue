@@ -47,7 +47,7 @@
           title="Apri su Google Maps"
           alt="Apri su Google Maps"
         >
-          <b-icon-bullseye /> Piazzetta Guido Bustelli 1, 6864 Arzo
+          <b-icon-bullseye /> Piazzetta Guido Bustelli 1, 6864 Arzo, Ticino, Switzerland
         </a>
       </h6>
       <b-row id="dove-trovarci-block">
@@ -486,6 +486,82 @@ export default {
       hid: 'og:title',
       name: 'og:title',
       content: 'Homepage'
+    }],
+    script: [{
+      type: 'application/ld+json',
+      json: {
+        '@context': 'http://schema.org',
+        '@type': 'Restaurant',
+        name: 'Al Torchio Antico',
+        image: require('assets/img/logos/logo-white.png'),
+        telephone: '+41 91 646 49 94',
+        email: 'rema.2018.restourant@gmail.com',
+        address: {
+          '@id': '_:restourant_address',
+          '@type': 'PostalAddress',
+          streetAddress: 'Piazzetta Guido Bustelli 1',
+          addressLocality: 'Arzo',
+          addressRegion: 'Ticino',
+          addressCountry: 'Switzerland',
+          postalCode: '6864'
+        },
+        location: { '@id': '_:restourant_address' },
+        servesCuisine: 'European',
+        openingHoursSpecification: [
+          {
+            '@type': 'OpeningHoursSpecification',
+            dayOfWeek: 'https://schema.org/Sunday',
+            opens: '10:00:00',
+            closes: '17:00:00'
+          },
+          {
+            '@type': 'OpeningHoursSpecification',
+            dayOfWeek: 'https://schema.org/Sunday',
+            opens: '14:00:00',
+            closes: '23:00:00'
+          },
+          {
+            '@type': 'OpeningHoursSpecification',
+            dayOfWeek: 'https://schema.org/Tuesday',
+            opens: '17:00:00',
+            closes: '22:00:00'
+          },
+          {
+            '@type': 'OpeningHoursSpecification',
+            dayOfWeek: 'https://schema.org/Wednesday',
+            opens: '17:00:00',
+            closes: '22:00:00'
+          },
+          {
+            '@type': 'OpeningHoursSpecification',
+            dayOfWeek: 'https://schema.org/Thursday',
+            opens: '17:00:00',
+            closes: '22:00:00'
+          },
+          {
+            '@type': 'OpeningHoursSpecification',
+            dayOfWeek: 'https://schema.org/Friday',
+            opens: '17:00:00',
+            closes: '22:00:00'
+          },
+          {
+            '@type': 'OpeningHoursSpecification',
+            dayOfWeek: 'https://schema.org/Saturday',
+            opens: '10:00:00',
+            closes: '14:00:00'
+          },
+          {
+            '@type': 'OpeningHoursSpecification',
+            dayOfWeek: 'https://schema.org/Saturday',
+            opens: '17:00:00',
+            closes: '23:00:00'
+          }
+        ],
+        currenciesAccepted: ['EUR', 'CHF'],
+        paymentAccepted: 'Cash, Credit Card',
+        priceRange: '$$',
+        slogan: 'Situato nel centro storico di Arzo, il Ristorante Al Torchio Antico sorge in un monastero del 18° secolo e offre piatti della cucina nostrana e vini pregiati per avvalorare al meglio le risorse locali'
+      }
     }]
   }),
   methods: {
