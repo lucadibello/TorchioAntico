@@ -699,7 +699,7 @@ export default {
 }
 
 #status-container {
-  width: 70%;
+  width: 50%;
 }
 
 .vgs {
@@ -707,6 +707,15 @@ export default {
   justify-content: center;
   flex-direction: column;
 }
+
+/* CSS Responsive query */
+@media only screen and (max-width: 1000px) {
+  #status-container {
+    width: 100%;
+    padding: 20px !important;
+  }
+}
+
 /* CSS Responsive query */
 @media only screen and (max-width: 600px) {
 
