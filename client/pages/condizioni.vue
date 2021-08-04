@@ -62,7 +62,7 @@
 export default {
   name: 'Condizioni',
   head: () => ({
-    title: 'Contatti',
+    title: 'Condizioni',
     meta: [{
       hid: 'description',
       name: 'description',
@@ -75,7 +75,7 @@ export default {
     {
       hid: 'og:title',
       name: 'og:title',
-      content: 'Contatti'
+      content: 'Condizioni'
     }]
   })
 }
