@@ -1,7 +1,7 @@
 <template>
   <client-only>
     <l-map ref="map" :zoom="20" :center="center" :bounds="bounds">
-      <l-tile-layer url="http://{s}.tile.osm.ch/switzerland/{z}/{x}/{y}.png" />
+      <l-tile-layer url="https://{s}.tile.osm.ch/switzerland/{z}/{x}/{y}.png" />
 
       <!-- Insert markers -->
       <l-marker v-for="marker in markers" :key="marker[0]" :lat-lng="marker">
