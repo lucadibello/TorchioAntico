@@ -1,7 +1,8 @@
 <template>
   <carousel-3d :height="445" :width="750" :autoplay="true" :autoplay-timeout="3000">
     <slide v-for="(slide, i) in slides" :key="i" :index="i">
-      <b-img :src="slide.src.webp" :alt="slide.alt" :height="445" :width="750" />
+      <b-img v-if="!slide.lazy" :src="slide.src.webp" :alt="slide.alt" />
+      <b-img-lazy v-else :src="slide.src.webp" :alt="slide.alt" />
     </slide>
   </carousel-3d>
 </template>
@@ -12,6 +13,7 @@ export default {
   data: () => ({
     slides: [
       {
+        lazy: false,
         src: {
           // jpg: require('assets/img/carousel/jpeg/foto1.jpg'),
           webp: require('assets/img/carousel/webp/foto1.webp')
@@ -19,6 +21,7 @@ export default {
         alt: 'Entrata ristorante'
       },
       {
+        lazy: true,
         src: {
           // jpg: require('assets/img/carousel/jpeg/foto2.jpg'),
           webp: require('assets/img/carousel/webp/foto2.webp')
@@ -26,6 +29,7 @@ export default {
         alt: 'Ristorante interno'
       },
       {
+        lazy: true,
         src: {
           // jpg: require('assets/img/carousel/jpeg/foto3.jpg'),
           webp: require('assets/img/carousel/webp/foto3.webp')
@@ -33,6 +37,7 @@ export default {
         alt: 'Cortile esterno'
       },
       {
+        lazy: true,
         src: {
           // jpg: require('assets/img/carousel/jpeg/foto4.jpg'),
           webp: require('assets/img/carousel/webp/foto4.webp')
